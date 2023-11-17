@@ -1,14 +1,15 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import random
-random.seed(42)
+
 
 class BookGraph:
-    def __init__(self, num_books, chance_predecesor_books=0.35, chance_parallel_books=0.35):
+    def __init__(self, num_books, random_seed, chance_predecesor_books=0.35, chance_parallel_books=0.35):
         self.graph = nx.DiGraph()
         self.num_books = num_books
         self.chance_predecesor_books = chance_predecesor_books
         self.chance_parallel_books = chance_parallel_books
+        random.seed(random_seed)
 
 
     def add_sequential_edge(self, from_book, to_book):
