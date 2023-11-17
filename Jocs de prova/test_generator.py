@@ -1,0 +1,66 @@
+import os
+import random
+random.seed(42)
+
+# Get the directory of the currently executing script
+script_dir = os.path.dirname(os.path.realpath(__file__))
+
+# Configuration: a test will be generated for each value of the list, with the given level and number of books
+level = [0, 1, 2, 3] # 0: basic (0, 1 predecesor), 1: extension 1 (N predecesors), 2: extension 2 (M paralel), 3: extension 3 (pages)
+num_books = [10, 15, 20, 30]
+domain = "books"
+predecessor_chance = 0.5 # Chance of a book having a predecesor
+page_range = (100, 500) # Range of pages for each book - level 3
+
+
+# Collection of books
+for test in range(len(level)):
+    # Get the path of the problem file
+    problem_name = "test" + str(level[test]) + "_" + str(test) + ".pddl"
+    output_file = os.path.join(script_dir, problem_name)
+
+    test_level = level[test]
+    test_num_books = num_books[test]
+
+    # Variables to check conditions
+    available_books = set(range(test_num_books))
+
+    with open(output_file, 'w') as problem_file:
+        # Domain definition
+        problem_file.write(f"(define (problem {problem_name})\n    (:domain {domain})\n")
+
+        # Objects definition
+        problem_file.write("    (:objects\n        ")
+        for book in range(test_num_books):
+            problem_file.write(f"book{book} ")
+        problem_file.write("- book\n")
+        problem_file.write("    )\n")
+
+        # Initial state definition
+        problem_file.write("    (:init\n")
+        for book in range(test_num_books):
+            # Level 3: pages
+            if test_level == 3:
+                pages = random.randint(page_range[0], page_range[1])
+                problem_file.write(f"        (= (pages book{book}) {pages})\n")
+
+            # Level 0: basic (0, 1 predecesor)
+            if test_level == 0:
+                # Randomly add or not a predecesor
+                if random.random() < predecessor_chance and len(available_books) > 1:
+                    predecesor = random.choice(list(available_books - set([book])))
+                    problem_file.write(f"        (predecesor book{predecesor} book{book})\n")
+                    available_books.remove(predecesor)
+        problem_file.write("    )\n")
+
+        # Metrics: level 3
+        if test_level == 3:
+            pass
+            # problem_file.write("    (:metric minimize (total-pages))\n") ??? esborrar abans d'entregar siusplau
+
+        # Goal state definition
+        problem_file.write("    (:goal\n")
+        problem_file.write("    )\n")
+        problem_file.write(")\n")
+
+
