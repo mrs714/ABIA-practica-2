@@ -1,6 +1,7 @@
 import os
 import random
 random.seed(42)
+from graph_generator import BookGraph
 
 # Get the directory of the currently executing script
 script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -9,7 +10,7 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 level = [0, 1, 2, 3] # 0: basic (0, 1 predecesor), 1: extension 1 (N predecesors), 2: extension 2 (M paralel), 3: extension 3 (pages)
 num_books = [10, 15, 20, 30]
 domain = "books"
-predecessor_chance = 0.5 # Chance of a book having a predecesor
+predecessor_chance = 0.5 # Chance of a book having a predecesor - level 0
 page_range = (100, 500) # Range of pages for each book - level 3
 
 
@@ -21,6 +22,10 @@ for test in range(len(level)):
 
     test_level = level[test]
     test_num_books = num_books[test]
+
+    # Generate the graph
+    graph = BookGraph(test_num_books)
+    graph.generate_graph(test_level)
 
     # Variables to check conditions
     available_books = set(range(test_num_books))
