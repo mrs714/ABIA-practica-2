@@ -44,3 +44,8 @@ for ((i=0; i<${#domain_files[@]}; i++)); do
     echo "Experiment completed for $domain_file"
     echo
 done
+
+# Execute the Python script to treat the data
+python3 process_results.py
+
+echo "Finished treating the data, files available at the execution directory"

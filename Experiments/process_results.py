@@ -1,13 +1,12 @@
 import os
+import csv
 
 # Get the directory of the currently executing script
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
-# Now 'script_dir' contains the full path to the directory
-print("Current script directory:", script_dir)
-
-
-output_file = script_dir + "./experiment_results.txt"
+input_file = script_dir + "/experiment_results.txt"
+output_file_averages = script_dir + "/experiment_results_averages.csv"
+output_file_all = script_dir + "/experiment_results_all.csv"
 
 def read_experiment_results(filename):
     with open(filename, 'r') as file:
@@ -40,10 +39,26 @@ def treat_data(num_iterations, results_per_experiment, results):
         total = 0
         for iteration in range(num_iterations):
             total += results[experiment][iteration]
-        averages.append(total / num_iterations)
+        averages.append(round(total / num_iterations, 3))
     return averages
 
+def save_data(num_iterations, results_per_experiment, results, averages):
+    # Save data to file in a csv format using the library csv
+    with open(output_file_averages, 'w') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Experiment", "Average"])
+        for experiment in range(results_per_experiment):
+            writer.writerow([experiment + 1, averages[experiment]])
 
-num_iterations, results_per_experiment, full_results = read_experiment_results(output_file)
+    # Save also all the values from results
+    with open(output_file_all, 'w') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Experiment", "Iteration", "Time"])
+        for experiment in range(results_per_experiment):
+            for iteration in range(num_iterations):
+                writer.writerow([experiment + 1, iteration + 1, results[experiment][iteration]])
+
+
+num_iterations, results_per_experiment, full_results = read_experiment_results(input_file)
 averages = treat_data(num_iterations, results_per_experiment, full_results)
-
+save_data(num_iterations, results_per_experiment, full_results, averages)
