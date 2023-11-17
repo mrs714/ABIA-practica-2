@@ -19,40 +19,31 @@ def read_experiment_results(filename):
 
         results = [[] for _ in range(num_experiments)]
 
-        for line in file:
-            parts = line.split('\t') # Format: real 0m0.000s 
-            time = parts[1] # Format: 0m0.000s
-            minutes = int(time.split('m')[0]) # Format: 0
-            seconds = float(time.split('m')[1][:-2]) # Format: 0.000
+        for experiment in range(num_experiments):
+            for iteration in range(num_iterations):
+                # Read line
+                line = file.readline().strip()
+                parts = line.split('\t') # Format: real 0m0.000s 
+                time = parts[1] # Format: 0m0.000s
+                minutes = int(time.split('m')[0]) # Format: 0
+                seconds = float(time.split('m')[1][:-1]) # Format: 0.000
 
-            print(minutes, seconds)
+                total = minutes * 60 + seconds # Format: 0.000
 
-        """
-        num_iterations = int(first_line.split()[-1])
+                results[experiment].append(total)
+    return num_iterations, num_experiments, results
 
-        # Initialize lists to store results for each experiment
-        results_per_experiment = [[] for _ in range(num_iterations)]
+def treat_data(num_iterations, results_per_experiment, results):
+    # Calculate average for each experiment
+    averages = []
+    for experiment in range(results_per_experiment):
+        total = 0
+        for iteration in range(num_iterations):
+            total += results[experiment][iteration]
+        averages.append(total / num_iterations)
+    return averages
 
-        # Read subsequent lines and extract the relevant information
-        for line in file:
-            parts = line.split('\t')
-            if len(parts) == 2 and parts[0] == 'real':
-                # Extract the second part and remove 's'
-                time_str = parts[1].strip('s')
-                
-                # Save the time in the corresponding list for the current experiment
-                results_per_experiment[int((file.tell() - len(line)) / len(line)) % num_iterations].append(time_str)
-                """
 
-    return num_iterations, num_experiments
+num_iterations, results_per_experiment, full_results = read_experiment_results(output_file)
+averages = treat_data(num_iterations, results_per_experiment, full_results)
 
-print(read_experiment_results(output_file))
-# Example usage
-"""
-num_iterations, results_per_experiment = read_experiment_results(output_file)
-
-# Print the results
-print("Number of iterations per experiment:", num_iterations)
-for i, experiment_results in enumerate(results_per_experiment):
-    print(f"Experiment {i + 1} results:", experiment_results)
-"""
