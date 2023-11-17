@@ -47,7 +47,6 @@ class BookGraph:
         if level == 1:
             for book in range(self.num_books):
                 number_predecesors = round(random.randint(0, len(available_books) - 1) * self.chance_predecesor_books)
-                print(number_predecesors)
                 predecesors = random.sample(list(available_books - set([book])), number_predecesors)
                 for predecesor in predecesors:
                     self.add_sequential_edge(predecesor, book)
@@ -68,9 +67,25 @@ class BookGraph:
                     available_books.remove(parallel)
                 if number_predecesors == 0 and number_parallels == 0:
                     self.add_independent_node(book)
+        
+    def get_sequetial_edge_nodes(self):
+        node_pairs = []
+        for (u, v, d) in self.graph.edges(data=True):
+            if d['type'] == 'predecessor':
+                node_pairs.append((u, v))
+        return node_pairs
 
-            
-
+    def get_parallel_edge_nodes(self):
+        node_pairs = []
+        for (u, v, d) in self.graph.edges(data=True):
+            if d['type'] == 'parallel':
+                node_pairs.append((u, v))
+        return node_pairs
+ 
+# Test
+"""
 graph = BookGraph(15)
 graph.generate_graph(3)
 graph.visualize_graph()
+print(graph.get_parallel_edge_nodes(), graph.get_sequetial_edge_nodes())
+"""

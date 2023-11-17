@@ -27,8 +27,9 @@ for test in range(len(level)):
     graph = BookGraph(test_num_books)
     graph.generate_graph(test_level)
 
-    # Variables to check conditions
-    available_books = set(range(test_num_books))
+    # Get the node relations
+    sequential_pairs = graph.get_sequetial_edge_nodes()
+    parallel_pairs = graph.get_parallel_edge_nodes()
 
     with open(output_file, 'w') as problem_file:
         # Domain definition
@@ -44,18 +45,19 @@ for test in range(len(level)):
         # Initial state definition
         problem_file.write("    (:init\n")
         for book in range(test_num_books):
+
             # Level 3: pages
             if test_level == 3:
                 pages = random.randint(page_range[0], page_range[1])
                 problem_file.write(f"        (= (pages book{book}) {pages})\n")
 
-            # Level 0: basic (0, 1 predecesor)
-            if test_level == 0:
-                # Randomly add or not a predecesor
-                if random.random() < predecessor_chance and len(available_books) > 1:
-                    predecesor = random.choice(list(available_books - set([book])))
-                    problem_file.write(f"        (predecesor book{predecesor} book{book})\n")
-                    available_books.remove(predecesor)
+        # Relationships between books
+        for predecessor, book in sequential_pairs:
+            problem_file.write(f"        (predecessor book{predecessor} book{book})\n")
+
+        for parallel, book in parallel_pairs:
+            problem_file.write(f"        (parallel book{parallel} book{book})\n")
+            
         problem_file.write("    )\n")
 
         # Metrics: level 3

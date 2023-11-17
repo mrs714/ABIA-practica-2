@@ -4,11 +4,11 @@
         book0 book1 book2 book3 book4 book5 book6 book7 book8 book9 - book
     )
     (:init
-        (predecesor book5 book1)
-        (predecesor book3 book2)
-        (predecesor book4 book6)
-        (predecesor book0 book7)
-        (predecesor book9 book8)
+        (predecessor book0 book7)
+        (predecessor book5 book1)
+        (predecessor book3 book2)
+        (predecessor book4 book6)
+        (predecessor book9 book8)
     )
     (:goal
     )
