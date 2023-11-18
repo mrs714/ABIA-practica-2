@@ -85,7 +85,7 @@ class BookGraph:
  
 # Test
 """
-graph = BookGraph(15)
+graph = BookGraph(15,42)
 graph.generate_graph(3)
 graph.visualize_graph()
 print(graph.get_parallel_edge_nodes(), graph.get_sequetial_edge_nodes())

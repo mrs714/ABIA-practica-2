@@ -10,8 +10,8 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 level = [0, 1, 2, 3] # 0: basic (0, 1 predecesor), 1: extension 1 (N predecesors), 2: extension 2 (M paralel), 3: extension 3 (pages)
 num_books = [10, 15, 20, 30]
 domain = "books"
-predecessor_chance = 0.5 # Chance of a book having a predecesor - level 0
-parallel_chance = 0.5 # Chance of a book having a parallel - level 2
+predecessor_chance = [0.5, 0.5, 0.5, 0.5] # Chance of a book having a predecesor - level 0
+parallel_chance = [0.5, 0.5, 0.5, 0.5] # Chance of a book having a parallel - level 2
 page_range = (100, 500) # Range of pages for each book - level 3
 random_seed = 42 # Set the random seed to get the same results
 
