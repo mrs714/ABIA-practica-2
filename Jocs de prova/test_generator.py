@@ -24,12 +24,14 @@ for test in range(len(level)):
 
     test_level = level[test]
     test_num_books = num_books[test]
+    test_predecessor_chance = predecessor_chance[test]
+    test_parallel_chance = parallel_chance[test]
 
     max_pages = 8000//test_num_books
     min_pages = max_pages//2
 
     # Generate the graph
-    graph = BookGraph(num_books=test_num_books, random_seed=random_seed, chance_predecesor_books=predecessor_chance, chance_parallel_books=parallel_chance)
+    graph = BookGraph(num_books=test_num_books, random_seed=random_seed, chance_predecesor_books=test_predecessor_chance, chance_parallel_books=test_parallel_chance)
     graph.generate_graph(test_level)
 
     # Get the node relations
