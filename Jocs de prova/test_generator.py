@@ -8,10 +8,12 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 
 # Configuration: a test will be generated for each value of the list, with the given level and number of books
 level = [0, 1, 2, 3] # 0: basic (0, 1 predecesor), 1: extension 1 (N predecesors), 2: extension 2 (M paralel), 3: extension 3 (pages)
-num_books = [10, 15, 20, 30]
+num_books = [10, 15, 20, 50]
 domain = "books"
 predecessor_chance = [0.5, 0.5, 0.5, 0.5] # Chance of a book having a predecesor - level 0
-parallel_chance = [0.5, 0.5, 0.5, 0.5] # Chance of a book having a parallel - level 2
+parallel_chance = [0.1, 0.1, 0.1, 0.1] # Chance of a book having a parallel - level 2
+read_books_percentage = [0.3, 0.3, 0.3, 0.3] # Percentage of books that have been read
+books_to_read_percentage = [0.3, 0.3, 0.3, 0.3] # Percentage of books that the user wants to read
 random_seed = 42 # Set the random seed to get the same results
 
 random.seed(random_seed)
@@ -37,6 +39,34 @@ for test in range(len(level)):
     # Get the node relations
     sequential_pairs = graph.get_sequetial_edge_nodes()
     parallel_pairs = graph.get_parallel_edge_nodes()
+
+    # Get the books that have been read, and the books that the user wants to read
+    available_books = list(range(test_num_books))
+    read_books = set(random.sample(available_books, int(test_num_books*read_books_percentage[test])))
+    available_books = list(set(available_books) - read_books)
+    books_to_read = set(random.sample(available_books, int(test_num_books*books_to_read_percentage[test])))
+    available_books = list(set(available_books) - books_to_read)
+
+    def make_book_read_recursively(book):
+        read_books.add(book)
+        # Get the predecessors of the book
+        predecessors = [book[0] for book in sequential_pairs if book[1] == book]
+        # Mark the predecessors as read
+        for successor in predecessors:
+            make_book_read_recursively(successor)
+
+    # If any book to be read has a parallel edge to a book that has already been read, mark all its predecessors as read
+    parallel_books = [book[0] for book in parallel_pairs if book[1] in books_to_read]
+    for book_with_parallel in parallel_books:
+        predecessors = [book[0] for book in sequential_pairs if book[1] == book_with_parallel]
+        for predecessor in predecessors:
+            make_book_read_recursively(book_with_parallel)
+    
+    # Remove the books that have been read from the books to read
+    books_to_read = books_to_read - read_books
+
+    print(f"Test {test}: {test_num_books} books, {len(sequential_pairs)} sequential pairs, {len(parallel_pairs)} parallel pairs, {len(read_books)} read books, {len(books_to_read)} books to read")
+    graph.paint_reading_plan(read_books, books_to_read)
 
     with open(output_file, 'w') as problem_file:
         # Domain definition
@@ -64,6 +94,13 @@ for test in range(len(level)):
 
         for parallel, book in parallel_pairs:
             problem_file.write(f"        (parallel book{parallel} book{book})\n")
+
+        # Information about read books and books to read
+        for book in read_books:
+            problem_file.write(f"        (read book{book})\n")
+
+        for book in books_to_read:
+            problem_file.write(f"        (to-read book{book})\n")
             
         problem_file.write("    )\n")
 

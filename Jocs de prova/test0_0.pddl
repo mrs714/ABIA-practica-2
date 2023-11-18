@@ -9,6 +9,12 @@
         (predecessor book3 book2)
         (predecessor book4 book6)
         (predecessor book9 book8)
+        (read book8)
+        (read book3)
+        (read book6)
+        (to-read book1)
+        (to-read book4)
+        (to-read book5)
     )
     (:goal
     )
