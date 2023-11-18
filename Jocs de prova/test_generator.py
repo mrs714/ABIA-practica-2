@@ -12,7 +12,6 @@ num_books = [10, 15, 20, 30]
 domain = "books"
 predecessor_chance = [0.5, 0.5, 0.5, 0.5] # Chance of a book having a predecesor - level 0
 parallel_chance = [0.5, 0.5, 0.5, 0.5] # Chance of a book having a parallel - level 2
-page_range = (100, 500) # Range of pages for each book - level 3
 random_seed = 42 # Set the random seed to get the same results
 
 random.seed(random_seed)
@@ -25,6 +24,9 @@ for test in range(len(level)):
 
     test_level = level[test]
     test_num_books = num_books[test]
+
+    max_pages = 8000//test_num_books
+    min_pages = max_pages//2
 
     # Generate the graph
     graph = BookGraph(num_books=test_num_books, random_seed=random_seed, chance_predecesor_books=predecessor_chance, chance_parallel_books=parallel_chance)
@@ -51,7 +53,7 @@ for test in range(len(level)):
 
             # Level 3: pages
             if test_level == 3:
-                pages = random.randint(page_range[0], page_range[1])
+                pages = random.randint(min_pages, max_pages)
                 problem_file.write(f"        (= (pages book{book}) {pages})\n")
 
         # Relationships between books
