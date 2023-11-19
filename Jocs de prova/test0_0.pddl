@@ -2,8 +2,21 @@
     (:domain books)
     (:objects
         book0 book1 book2 book3 book4 book5 book6 book7 book8 book9 - book
+        January February March April May June July August September October November December - month
     )
     (:init
+        (= (number January) 0)
+        (= (number February) 1)
+        (= (number March) 2)
+        (= (number April) 3)
+        (= (number May) 4)
+        (= (number June) 5)
+        (= (number July) 6)
+        (= (number August) 7)
+        (= (number September) 8)
+        (= (number October) 9)
+        (= (number November) 10)
+        (= (number December) 11)
         (predecessor book0 book7)
         (predecessor book5 book1)
         (predecessor book3 book2)

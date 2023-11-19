@@ -16,6 +16,8 @@ read_books_percentage = [0.3, 0.3, 0.3, 0.3] # Percentage of books that have bee
 books_to_read_percentage = [0.3, 0.3, 0.3, 0.3] # Percentage of books that the user wants to read
 random_seed = 42 # Set the random seed to get the same results
 
+months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November","December"]
+
 random.seed(random_seed)
 
 # Collection of books
@@ -47,6 +49,7 @@ for test in range(len(level)):
     books_to_read = set(random.sample(available_books, int(test_num_books*books_to_read_percentage[test])))
     available_books = list(set(available_books) - books_to_read)
 
+    """
     def make_book_read_recursively(book):
         read_books.add(book)
         # Get the predecessors of the book
@@ -64,6 +67,7 @@ for test in range(len(level)):
     
     # Remove the books that have been read from the books to read
     books_to_read = books_to_read - read_books
+    """
 
     print(f"Test {test}: {test_num_books} books, {len(sequential_pairs)} sequential pairs, {len(parallel_pairs)} parallel pairs, {len(read_books)} read books, {len(books_to_read)} books to read")
     graph.paint_reading_plan(read_books, books_to_read)
@@ -76,11 +80,17 @@ for test in range(len(level)):
         problem_file.write("    (:objects\n        ")
         for book in range(test_num_books):
             problem_file.write(f"book{book} ")
-        problem_file.write("- book\n")
+        problem_file.write("- book\n        ")
+        for month in months:
+            problem_file.write(f"{month} ")
+        problem_file.write("- month\n")
         problem_file.write("    )\n")
 
         # Initial state definition
         problem_file.write("    (:init\n")
+        for month in range(len(months)):
+            problem_file.write(f"        (= (number {months[month]}) {month})\n")
+
         for book in range(test_num_books):
 
             # Level 3: pages
@@ -113,5 +123,3 @@ for test in range(len(level)):
         problem_file.write("    (:goal\n")
         problem_file.write("    )\n")
         problem_file.write(")\n")
-
-
