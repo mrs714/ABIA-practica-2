@@ -11,7 +11,6 @@ class BookGraph:
         self.chance_parallel_books = chance_parallel_books
         random.seed(random_seed)
 
-
     def add_sequential_edge(self, from_book, to_book):
         self.graph.add_edge(from_book, to_book, type="predecessor")
 
