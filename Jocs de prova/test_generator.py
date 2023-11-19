@@ -8,7 +8,7 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 
 # Configuration: a test will be generated for each value of the list, with the given level and number of books
 level = [0, 1, 2, 3] # 0: basic (0, 1 predecesor), 1: extension 1 (N predecesors), 2: extension 2 (M paralel), 3: extension 3 (pages)
-num_books = [10, 15, 20, 50]
+num_books = [20, 15, 20, 50]
 domain = "books"
 predecessor_chance = [0.5, 0.5, 0.5, 0.5] # Chance of a book having a predecesor - level 0
 parallel_chance = [0.1, 0.1, 0.1, 0.1] # Chance of a book having a parallel - level 2
@@ -23,8 +23,9 @@ random.seed(random_seed)
 # Collection of books
 for test in range(len(level)):
     # Get the path of the problem file
-    problem_name = "test" + str(level[test]) + "_" + str(test) + ".pddl"
-    output_file = os.path.join(script_dir, problem_name)
+    problem_name = "test" + str(level[test]) + "_" + str(test)
+    problem_name_path = problem_name + ".pddl"
+    output_file = os.path.join(script_dir, problem_name_path)
 
     test_level = level[test]
     test_num_books = num_books[test]
@@ -70,7 +71,7 @@ for test in range(len(level)):
     """
 
     print(f"Test {test}: {test_num_books} books, {len(sequential_pairs)} sequential pairs, {len(parallel_pairs)} parallel pairs, {len(read_books)} read books, {len(books_to_read)} books to read")
-    #graph.paint_reading_plan(read_books, books_to_read)
+    graph.paint_reading_plan(read_books, books_to_read)
 
     with open(output_file, 'w') as problem_file:
         # Domain definition

@@ -20,14 +20,22 @@
                     and 
                     (not (read ?book))
                     (to-read ?book)
-                    (forall ;; Per a tot llibre predecessor, ha estat llegit en un més anterior
+                    (forall ; For each predecesor, it has to have been read in a previous month
                       (?pred - book) 
                       (imply 
-                        (predecessor ?book ?pred) 
+                        (predecessor ?pred ?book) 
                         (and 
                           (read ?pred) 
-                          (exists (?month_pred - month) (assigned ?pred ?month_pred))
-                          (> (number ?month) (number ?month_pred))
+                          (or
+                            (not (to-read ?pred))
+                            (exists 
+                              (?month_pred - month)
+                              (and  
+                                (assigned ?pred ?month_pred) 
+                                (> (number ?month) (number ?month_pred))
+                              )
+                            )
+                          )
                         )
                       )
                     )
@@ -39,4 +47,7 @@
 			      )
   )
   
+  ; Per a cada llibre sequencial a un que s'ha de llegir, assignarlo a toread
+
+
 )
