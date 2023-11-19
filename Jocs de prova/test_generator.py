@@ -6,14 +6,18 @@ from graph_generator import BookGraph
 # Get the directory of the currently executing script
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
+
 # Configuration: a test will be generated for each value of the list, with the given level and number of books
-level = [0, 1, 2, 3] # 0: basic (0, 1 predecesor), 1: extension 1 (N predecesors), 2: extension 2 (M paralel), 3: extension 3 (pages)
-num_books = [20, 15, 20, 50]
+#level = [0, 1, 2, 3] # 0: basic (0, 1 predecesor), 1: extension 1 (N predecesors), 2: extension 2 (M paralel), 3: extension 3 (pages)
+#num_books = [30, 15, 20, 50]
+config_range = 1
+level = [0 for i in range(config_range)]
+num_books = [20 + i*2 for i in range(config_range)]
 domain = "books"
-predecessor_chance = [0.5, 0.5, 0.5, 0.5] # Chance of a book having a predecesor - level 0
-parallel_chance = [0.1, 0.1, 0.1, 0.1] # Chance of a book having a parallel - level 2
-read_books_percentage = [0.3, 0.3, 0.3, 0.3] # Percentage of books that have been read
-books_to_read_percentage = [0.3, 0.3, 0.3, 0.3] # Percentage of books that the user wants to read
+predecessor_chance = [0.5 for i in range(config_range)] # Chance of a book having a predecesor - level 0
+parallel_chance = [0.1 for i in range(config_range)] # Chance of a book having a parallel - level 2
+read_books_percentage = [0.3 for i in range(config_range)] # Percentage of books that have been read
+books_to_read_percentage = [0.3 for i in range(config_range)] # Percentage of books that the user wants to read
 random_seed = 42 # Set the random seed to get the same results
 
 months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November","December"]
