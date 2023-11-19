@@ -17,32 +17,26 @@
   (:action assign_to_month
     :parameters (?book - book ?month - month)
     :precondition (
-                      and 
-                      (not (read ?book))
-                      (to-read ?book)
+                    and 
+                    (not (read ?book))
+                    (to-read ?book)
+                    (forall ;; Per a tot llibre predecessor, ha estat llegit en un més anterior
+                      (?pred - book) 
+                      (imply 
+                        (predecessor ?book ?pred) 
+                        (and 
+                          (read ?pred) 
+                          (exists (?month_pred - month) (assigned ?pred ?month_pred))
+                          (> (number ?month) (number ?month_pred))
+                        )
+                      )
+                    )
 	                )
     :effect ( 
               and
               (assigned ?book ?month)
               (read ?book)
-              (not (to-read ?book))
 			      )
   )
-  (:action assign_to_read ;; Assignar per llegir els llibres paral·lels o seqüencials
-    :parameters (?x)
-    :precondition (
-                      and 
-                      (clear ?x)
-                      (ontable ?x)
-                      (handempty)
-	                )
-    :effect ( 
-              and
-              (holding ?x)
-              (not (ontable ?x))
-
-			      )
-  )
-
   
 )

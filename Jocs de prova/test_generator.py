@@ -70,7 +70,7 @@ for test in range(len(level)):
     """
 
     print(f"Test {test}: {test_num_books} books, {len(sequential_pairs)} sequential pairs, {len(parallel_pairs)} parallel pairs, {len(read_books)} read books, {len(books_to_read)} books to read")
-    graph.paint_reading_plan(read_books, books_to_read)
+    #graph.paint_reading_plan(read_books, books_to_read)
 
     with open(output_file, 'w') as problem_file:
         # Domain definition
@@ -120,6 +120,5 @@ for test in range(len(level)):
             # problem_file.write("    (:metric minimize (total-pages))\n") ??? esborrar abans d'entregar siusplau
 
         # Goal state definition
-        problem_file.write("    (:goal\n")
-        problem_file.write("    )\n")
+        problem_file.write("    (:goal (forall (?book - book) (imply (to-read ?book) (read ?book))))\n")
         problem_file.write(")\n")

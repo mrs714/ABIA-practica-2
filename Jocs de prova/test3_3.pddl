@@ -146,6 +146,5 @@
         (to-read book26)
         (to-read book29)
     )
-    (:goal
-    )
+    (:goal (forall (?book - book) (imply (to-read ?book) (read ?book))))
 )
