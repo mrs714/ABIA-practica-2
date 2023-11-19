@@ -57,14 +57,19 @@ class BookGraph:
         available_books = set(range(self.num_books))
         if level == 0:
             for book in range(self.num_books):
-                if random.random() < self.chance_predecesor_books and len(available_books) > 1:
-                    predecesor = random.choice(list(available_books - set([book])))
-                    self.add_sequential_edge(predecesor, book)
-                    available_books.remove(predecesor)
+                # Check if book already is a predecesor of another book
+                if book in available_books:
+                    if random.random() < self.chance_predecesor_books and len(available_books) > 1:
+                        predecesor = random.choice(list(available_books - set([book])))
+                        self.add_sequential_edge(predecesor, book)
+                        available_books.remove(predecesor)
+                    else:
+                        self.add_independent_node(book)
                 else:
                     self.add_independent_node(book)
         if level == 1:
             for book in range(self.num_books):
+                # Assign a random number of predecesors to the book, balanced depending on the number of available books
                 number_predecesors = round(random.randint(0, len(available_books) - 1) * (self.chance_predecesor_books - (self.chance_predecesor_books * (len(available_books) / self.num_books))/1.1))
                 predecesors = random.sample(list(available_books - set([book])), number_predecesors )
                 for predecesor in predecesors:
@@ -74,6 +79,7 @@ class BookGraph:
                     self.add_independent_node(book)
         if level > 1:
             for book in range(self.num_books):
+                # Assign a random number of predecesors and parallels to the book, balanced depending on the number of available books
                 number_predecesors = round(random.randint(0, len(available_books) - 1) * (self.chance_predecesor_books - (self.chance_predecesor_books * (len(available_books) / self.num_books))/1.1))
                 number_parallels = round(random.randint(0, len(available_books) - 1) * (self.chance_parallel_books - (self.chance_parallel_books * (len(available_books) / self.num_books))/1.1))
                 predecesors = random.sample(list(available_books - set([book])), number_predecesors)
@@ -88,6 +94,7 @@ class BookGraph:
                     self.add_independent_node(book)
         
     def get_sequetial_edge_nodes(self):
+        # Returns all pairs of nodes that are connected by a sequential edge
         node_pairs = []
         for (u, v, d) in self.graph.edges(data=True):
             if d['type'] == 'predecessor':
@@ -95,6 +102,7 @@ class BookGraph:
         return node_pairs
 
     def get_parallel_edge_nodes(self):
+        # Returns all pairs of nodes that are connected by a parallel edge
         node_pairs = []
         for (u, v, d) in self.graph.edges(data=True):
             if d['type'] == 'parallel':
