@@ -4,7 +4,7 @@
   )   
 
   (:functions 
-    (number ?month - month)
+    (number_month ?month - month)
   )
 
   (:predicates 
@@ -32,7 +32,7 @@
                   (?month_pred - month)
                   (and  
                     (assigned ?pred ?month_pred) 
-                    (> (number ?month) (number ?month_pred))
+                    (> (number_month ?month) (number_month ?month_pred))
                   )
                 )
               )
