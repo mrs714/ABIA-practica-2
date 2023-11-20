@@ -12,7 +12,7 @@ show_graph = False
 # Configuration: a test will be generated for each value of the list, with the given level and number of books
 #level = [0, 1, 2, 3] # 0: basic (0, 1 predecesor), 1: extension 1 (N predecesors), 2: extension 2 (M paralel), 3: extension 3 (pages)
 #num_books = [30, 15, 20, 50]
-config_range = 2
+config_range = 4
 level = [0 for i in range(config_range)]
 num_books = [35 + i for i in range(config_range)]
 domain = "books"
