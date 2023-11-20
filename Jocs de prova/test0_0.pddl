@@ -20,7 +20,7 @@
         (predecessor book0 book9)
         (predecessor book5 book1)
         (predecessor book3 book2)
-        (predecessor book4 book8)
+        (predecessor book7 book8)
         (read book0)
         (read book9)
         (read book3)

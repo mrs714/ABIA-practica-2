@@ -63,6 +63,7 @@ class BookGraph:
                         predecesor = random.choice(list(available_books - set([book])))
                         self.add_sequential_edge(predecesor, book)
                         available_books.remove(predecesor)
+                        available_books.remove(book)
                     else:
                         self.add_independent_node(book)
                 else:
