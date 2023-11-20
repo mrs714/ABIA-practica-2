@@ -44,8 +44,22 @@ for ((i=0; i<${#domain_files[@]}; i++)); do
     echo "Planner: $planner"
     echo ""
 
-    # Run x iterations for each combination, plus one for outputs
-    "$planner" -o "$domain_file" -f "$problem_file"
+    # Run x iterations for each combination, plus one to see if the program runs out of memory
+    if [ "$run_fluent" = false ]; then    
+	if "$planner" -o "$domain_file" -f "$problem_file" | grep -q "memory"; then
+	    echo "The program has run out of memory. Ending the loop."
+	break
+	else 
+	    "The program has been executed succesfully. Proceeding to timing:"
+	fi
+
+    else
+	if "$planner" -o "$domain_file" -f "$problem_file" -O | grep -q "memory"; then
+	echo "The program has run out of memory. Ending the loop."
+	break
+	fi
+    fi
+
     for ((j=1; j<=$num_iterations; j++)); do
         echo "Iteration $j:"
 	
