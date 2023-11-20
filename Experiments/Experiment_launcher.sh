@@ -99,7 +99,6 @@ echo
 
 if [ "$out_of_memory" = true ]; then
     echo "An execution has run out of memory. Skipping the treatment of the data."
-    break
 else
     echo "All experiments have been completed succesfully."
     echo
