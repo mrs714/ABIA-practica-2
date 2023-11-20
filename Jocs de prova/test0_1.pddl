@@ -1,7 +1,7 @@
 (define (problem test0_1)
     (:domain books)
     (:objects
-        book0 book1 book2 book3 book4 book5 book6 book7 book8 book9 book10 book11 - book
+        book0 book1 book2 book3 book4 book5 book6 book7 book8 book9 book10 - book
         January February March April May June July August September October November December - month
     )
     (:init
@@ -17,17 +17,16 @@
         (= (number October) 9)
         (= (number November) 10)
         (= (number December) 11)
+        (predecessor book0 book10)
         (predecessor book5 book1)
-        (predecessor book1 book10)
         (predecessor book3 book2)
-        (predecessor book7 book11)
         (predecessor book9 book8)
-        (read book0)
-        (read book9)
         (read book8)
-        (to-read book2)
-        (to-read book4)
-        (to-read book7)
+        (read book10)
+        (read book3)
+        (to-read book0)
+        (to-read book1)
+        (to-read book5)
     )
     (:goal (forall (?book - book) (imply (to-read ?book) (read ?book))))
 )
