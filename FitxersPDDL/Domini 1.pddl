@@ -1,6 +1,6 @@
 (define (domain blocks)
   (:requirements :strips)
-
+;Miquel no fiquis espais en directoris
   (:predicates 
                (clear ?x)
                (on ?x ?y)
