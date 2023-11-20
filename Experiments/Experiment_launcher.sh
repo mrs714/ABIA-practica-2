@@ -82,9 +82,9 @@ for ((i=0; i<${#domain_files[@]}; i++)); do
         echo "Iteration $j:"
 	
         if [ "$run_fluent" = false ]; then
-            { time "$planner" -o "$domain_file" -f "$problem_file"; } 2>&1 | grep real | tee -a $output_file
+            { time "$planner" -o "$domain_file" -f "$problem_file"; } 2>&1 | grep real | tr ',' '.'| tee -a $output_file
         else
-            { time "$planner" -o "$domain_file" -f "$problem_file" -O; } 2>&1 | grep real | tee -a $output_file
+            { time "$planner" -o "$domain_file" -f "$problem_file" -O; } 2>&1 | grep real | tr ',' '.' | tee -a $output_file
         fi
 
         echo "Iteration $j completed"
