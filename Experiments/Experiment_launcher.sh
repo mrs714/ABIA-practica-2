@@ -17,7 +17,7 @@ done
 
 problem_files=()
 for ((i=0; i<files; i++)); do
-    problem_files+=("../Jocs de prova/test0_$i.pddl")
+    problem_files+=("../JocsDeProva/test0_$i.pddl")
 done
 
 run_fluents=()
