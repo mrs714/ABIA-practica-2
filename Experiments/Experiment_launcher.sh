@@ -17,7 +17,7 @@ done
 
 problem_files=()
 for ((i=0; i<files_init; i++)); do
-    problem_files+=("../JocsDeProva/test3_$i.pddl")
+    problem_files+=("../JocsDeProva/test2_$i.pddl")
 done
 
 run_fluents=()
@@ -57,6 +57,7 @@ for ((i=0; i<${#domain_files[@]}; i++)); do
     echo "Problem File: $problem_file"
     echo "Planner: $planner"
     echo 
+"$planner" -o "$domain_file" -f "$problem_file"
 
     # Run x iterations for each combination, plus one to see if the program runs out of memory
     if [ "$run_fluent" = false ]; then

@@ -81,11 +81,16 @@ class BookGraph:
             available_parallel_books = set(range(self.num_books))
             for book in range(self.num_books):
                 # Assign a random number of predecesors and parallels to the book, balanced depending on the number of available books
-                number_parallels = round(random.randint(0, len(available_parallel_books) - 1) * (self.chance_parallel_books - (self.chance_parallel_books * (len(available_parallel_books) / self.num_books))/1.1))
+                number_parallels = round(random.randint(0, len(available_parallel_books) - 1) * (self.chance_parallel_books - (self.chance_parallel_books * (len(available_parallel_books) / self.num_books))/1.5))
+                if number_parallels == 0:
+                    number_parallels = 1 if random.random() < self.chance_parallel_books  else 0
+                    print(number_parallels)
                 parallels = random.sample(list(available_parallel_books - set([book]) - set(predecesors)), number_parallels)
                 for parallel in parallels:
                     self.add_parallel_edge(parallel, book)
                     available_parallel_books.remove(parallel)
+                    if book in available_parallel_books:
+                        available_parallel_books.remove(book)
                 if number_parallels == 0:
                     self.add_independent_node(book)
         
