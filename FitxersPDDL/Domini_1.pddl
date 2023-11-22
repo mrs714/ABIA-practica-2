@@ -11,7 +11,7 @@
     (read ?book - book)
     (to-read ?book - book)
     (assigned ?book - book ?month - month)
-    (predecessor ?book - book ?y - book)
+    (predecessor ?pred - book ?book - book)
   )
 
   (:action assign_to_month
