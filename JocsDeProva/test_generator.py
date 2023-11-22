@@ -7,12 +7,16 @@ from graph_generator import BookGraph
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
 # Wether to show the book graph when creating each test
-show_graph = False
+show_graph = True
 
 # Configuration: a test will be generated for each value of the list, with the given level and number of books
 #level = [0, 1, 2, 3] # 0: basic (0, 1 predecesor), 1: extension 1 (N predecesors), 2: extension 2 (M paralel), 3: extension 3 (pages)
 #num_books = [30, 15, 20, 50]
+<<<<<<< HEAD
 config_range = 90
+=======
+config_range = 1
+>>>>>>> ef42f72765a2b06d7185bba4ca91b46dcd5f6f52
 level = [2 for i in range(config_range)]
 num_books = [20 + i for i in range(config_range)]
 domain = "books"
