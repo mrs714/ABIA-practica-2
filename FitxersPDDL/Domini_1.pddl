@@ -1,9 +1,6 @@
 (define (domain books)
   (:requirements :strips :typing :adl :fluents)
-
-  ;Intenta reducir la complejidad de la funcion assign_to_month descartando muchos libros a la primera (action assign_book_to_assign)
   (:types book month - object
-          book_to_assign - book
   )   
 
   (:functions 
@@ -15,33 +12,18 @@
     (to-read ?book - book)
     (assigned ?book - book ?month - month)
     (predecessor ?book - book ?y - book)
-    (to_assign ?book)     ;V2
   )
-;V2 _____________
-  (:action assign_book_to_assign
-      :parameters (?book - book)
-      :precondition (
-        and
-        (not (to_assign ?book))
-        (not (read ?book))
-        (to-read ?book)
-        )
-      :effect (
-        and
-        (to_assign ?book) 
-        )
-  )
-;V2 ^^^^^^^^^^^^^
 
   (:action assign_to_month
     :parameters (?book - book ?month - month)
     :precondition (
         and 
-        (to_assign ?book)     ;V2
+        (not (read ?book))
+        (to-read ?book)
         (forall ; For each predecessor, it has to have been read in a previous month
-          (?pred - book) ;Molaría mucho reducir esto
+          (?pred - book) 
           (imply 
-            (predecessor ?pred ?book)    ;por qué va fuera del and? 
+            (predecessor ?pred ?book) 
             (and 
               (read ?pred) 
               (or

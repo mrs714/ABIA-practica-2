@@ -20,26 +20,26 @@
         and 
         (not (read ?book))
         (to-read ?book)
-        (forall ; For each predecessor, it has to have been read in a previous month
+        (exists ; For each predecessor, it has to have been read in a previous month
           (?pred - book) 
-          (imply 
-            (predecessor ?pred ?book) 
-            (and 
-              (read ?pred) 
-              (or
-                (not (to-read ?pred))
-                (exists 
-                  (?month_pred - month)
-                  (and  
-                    (assigned ?pred ?month_pred) 
-                    (> (number_month ?month) (number_month ?month_pred))
-                  )
+          (and 
+            (predecessor ?pred ?book)  
+            (read ?pred) 
+            (or
+              (not (to-read ?pred))
+              (exists 
+                (?month_pred - month)
+                (and  
+                  (assigned ?pred ?month_pred) 
+                  (> (number_month ?month) (number_month ?month_pred))
                 )
               )
             )
+            
           )
         )
-      )
+    )
+  
     :effect ( 
         and
         (assigned ?book ?month)
