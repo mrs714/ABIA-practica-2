@@ -34,7 +34,8 @@ class BookGraph:
         nx.draw_networkx_labels(self.graph, pos)
         plt.show()
 
-    def paint_reading_plan(self, read_books, books_to_read):
+    def paint_reading_plan(self, read_books, books_to_read, rest_of_books = []):
+
         # Visualize the graph, painting the read books in green and the books to read in red
         pos = nx.spring_layout(self.graph)
         # Group edges by type
@@ -49,6 +50,10 @@ class BookGraph:
         nx.draw_networkx_nodes(self.graph, pos, nodelist=read_books, node_color='g')
         # Paint the books to read in red
         nx.draw_networkx_nodes(self.graph, pos, nodelist=books_to_read, node_color='r')
+        if rest_of_books:
+            nx.draw_networkx_nodes(self.graph, pos, nodelist=rest_of_books, node_color='cyan')
+        else:
+            nx.draw_networkx_nodes(self.graph, pos, nodelist=list(set(range(self.num_books)) - set(read_books) - set(books_to_read)), node_color='cyan')
 
         nx.draw_networkx_labels(self.graph, pos)
         plt.show()
@@ -109,7 +114,53 @@ class BookGraph:
             if d['type'] == 'parallel':
                 node_pairs.append((u, v))
         return node_pairs
+    
+    def make_mistborn_0(self):
+
+        total_books = []
+        books = ["The Final Empire", "The Well of Ascension", "The Hero of Ages"]
+        total_books += books
+        
+        # Relacions sequencials
+        for book in range(len(books) - 1):
+            self.add_sequential_edge(books[book], books[book + 1])
+
+        books = ["The Alloy of Law", "Shadows of Self", "The Bands of Mourning", "The Lost Metal"]
+        total_books += books
+
+        for book in range(len(books) - 1):
+            self.add_sequential_edge(books[book], books[book + 1])
+
+        books = ["The Eleventh Metal", "Allomancer Jak", "Mistborn: Secret History"]
+        total_books += books
+
+        self.add_sequential_edge("The Hero of Ages", "Mistborn: Secret History")
+
+        self.add_independent_node("The Eleventh Metal")
+        self.add_independent_node("Allomancer Jak")
+
+        books = ["The Way of Kings", "Words of Radiance", "Oathbringer", "Rhythm of War"]
+        total_books += books
+
+        for book in range(len(books) - 1):
+            self.add_sequential_edge(books[book], books[book + 1])
+
+        books = ["Dawnshard", "Edgedancer", "Horneater"]
+        total_books += books
+
+        for book in books:
+            self.add_independent_node(book)
+
+        self.visualize_graph()
+        
+        read = ["The Alloy of Law", "The Way of Kings"]
+        to_read = ["Shadows of Self", "The Bands of Mourning", "The Lost Metal"]
+        to_read += ["Mistborn: Secret History"]
+        to_read += ["Rhythm of War"]
+
+        self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
  
+BookGraph(0,0,0,0).make_mistborn_0()
 # Test
 """
 graph = BookGraph(15,42)

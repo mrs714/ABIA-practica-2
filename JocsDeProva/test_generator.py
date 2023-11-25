@@ -7,13 +7,13 @@ from graph_generator import BookGraph
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
 # Wether to show the book graph when creating each test
-show_graph = False
+show_graph = True
 
 # Configuration: a test will be generated for each value of the list, with the given level and number of books
 #level = [0, 1, 2, 3] # 0: basic (0, 1 predecesor), 1: extension 1 (N predecesors), 2: extension 2 (M paralel), 3: extension 3 (pages)
 #num_books = [30, 15, 20, 50]
 
-config_range = 20
+config_range = 1
 
 level = [1 for i in range(config_range)]
 num_books = [5 + i for i in range(config_range)]
@@ -40,7 +40,7 @@ for test in range(len(level)):
     test_predecessor_chance = predecessor_chance[test]
     test_parallel_chance = parallel_chance[test]
 
-    max_pages = 8000//test_num_books
+    max_pages = min(8000//test_num_books, 800)
     min_pages = max_pages//2
 
     # Generate the graph
