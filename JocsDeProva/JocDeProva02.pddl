@@ -43,6 +43,8 @@
         (predecessor TheWayOfKings WordsOfRadiance)
         (predecessor WordsOfRadiance Oathbringer)
         (predecessor Oathbringer RhythmOfWar)
+        (predecessor Oathbringer Dawnshard)
+        (predecessor RhythmOfWar Horneater)
     )
     
     (:goal (forall (?book - book) (imply (to-read ?book) (read ?book))))

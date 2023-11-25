@@ -197,7 +197,7 @@ class BookGraph:
 
 
  
-BookGraph(0,0,0,0).make_mistborn("04")
+#BookGraph(0,0,0,0).make_mistborn("04")
 # Test
 """
 graph = BookGraph(15,42)

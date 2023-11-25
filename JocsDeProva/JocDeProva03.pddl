@@ -6,7 +6,7 @@
         ; The Stormlight Archive
         TheWayOfKings WordsOfRadiance Oathbringer RhythmOfWar Edgedancer Dawnshard Horneater - book
         ; Warbreaker - future tests
-        ; Warbreaker Nightblood - book
+        Warbreaker Nightblood - book
         ; Months
         January February March April May June July August September October November December - month
     )
@@ -39,10 +39,19 @@
         (predecessor TheAlloyOfLaw ShadowsOfSelf)
         (predecessor ShadowsOfSelf TheBandsOfMourning)
         (predecessor TheBandsOfMourning TheLostMetal)
+        (predecessor TheBandsOfMourning MistbornSecretHistory)
         ; Predecessors The Stormlight Archive:
         (predecessor TheWayOfKings WordsOfRadiance)
         (predecessor WordsOfRadiance Oathbringer)
         (predecessor Oathbringer RhythmOfWar)
+        (predecessor Oathbringer Dawnshard)
+        (predecessor RhythmOfWar Horneater)
+        ; Predecessors Warbreaker:
+        (predecessor Warbreaker Nightblood)
+        ; Predecessors combinats
+        (predecessor Warbreaker WordsOfRadiance)
+        (predecessor Oathbringer MistbornSecretHistory)
+        (predecessor TheHeroOfAges Oathbringer)
     )
     
     (:goal (forall (?book - book) (imply (to-read ?book) (read ?book))))
