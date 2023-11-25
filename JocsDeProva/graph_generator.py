@@ -37,7 +37,7 @@ class BookGraph:
     def paint_reading_plan(self, read_books, books_to_read, rest_of_books = []):
 
         # Visualize the graph, painting the read books in green and the books to read in red
-        pos = nx.spring_layout(self.graph)
+        pos = nx.spring_layout(self.graph, k=1.6, iterations=200) # k = distance between nodes, iterations = number of iterations of the spring layout algorithm
         # Group edges by type
         parallel_edges = [(u, v) for (u, v, d) in self.graph.edges(data=True) if d['type'] == 'parallel']
         predecessor_edges = [(u, v) for (u, v, d) in self.graph.edges(data=True) if d['type'] == 'predecessor']
@@ -115,7 +115,8 @@ class BookGraph:
                 node_pairs.append((u, v))
         return node_pairs
     
-    def make_mistborn_0(self):
+    def make_mistborn(self, level: str):
+        # Level: 01, 02 for level 0; 11, 12 for level 1; ...
 
         total_books = []
         books = ["The Final Empire", "The Well of Ascension", "The Hero of Ages"]
@@ -150,17 +151,53 @@ class BookGraph:
 
         for book in books:
             self.add_independent_node(book)
-
-        self.visualize_graph()
         
         read = ["The Alloy of Law", "The Way of Kings"]
         to_read = ["Shadows of Self", "The Bands of Mourning", "The Lost Metal"]
         to_read += ["Mistborn: Secret History"]
         to_read += ["Rhythm of War"]
 
-        self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
+        if level == "01":
+            self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
+            return
+        
+        self.add_sequential_edge("Oathbringer", "Dawnshard")
+        self.add_sequential_edge("Rhythm of War", "Horneater")
+        books = ["The Stormlight Archive 5"]
+        total_books += books
+        self.add_sequential_edge("Rhythm of War", "The Stormlight Archive 5")
+        to_read += ["Dawnshard", "Horneater"]
+        
+        if level == "02":
+            self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
+            return
+        
+        books = ["Warbreaker", "Nightblood"]
+        total_books += books
+        self.add_sequential_edge("Warbreaker", "Nightblood")
+        self.add_sequential_edge("Warbreaker", "Words of Radiance")
+        self.add_sequential_edge("Oathbringer", "Mistborn: Secret History")
+        self.add_sequential_edge("The Bands of Mourning", "Mistborn: Secret History")
+        self.add_sequential_edge("The Hero of Ages", "Oathbringer")
+        
+        if level == "03":
+            self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
+            return
+        
+        self.add_sequential_edge("The Hero of Ages", "The Eleventh Metal")
+        self.add_sequential_edge("The Alloy of Law", "Allomancer Jak")
+        self.add_sequential_edge("Words of Radiance", "Edgedancer")
+        self.add_sequential_edge("Edgedancer", "Oathbringer")
+
+        if level == "04":
+            self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
+            return
+        
+
+
+
  
-BookGraph(0,0,0,0).make_mistborn_0()
+BookGraph(0,0,0,0).make_mistborn("04")
 # Test
 """
 graph = BookGraph(15,42)
