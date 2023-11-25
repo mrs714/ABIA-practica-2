@@ -4,7 +4,7 @@
         ; Mistborn series
         TheFinalEmpire TheWellOfAscension TheHeroOfAges TheAlloyOfLaw ShadowsOfSelf TheBandsOfMourning TheLostMetal TheEleventhMetal AllomancerJak MistbornSecretHistory - book
         ; The Stormlight Archive
-        TheWayOfKings WordsOfRadiance Oathbringer RhythmOfWar Edgedancer Dawnshard Horneater - book
+        TheWayOfKings WordsOfRadiance Oathbringer RhythmOfWar FifthBook Edgedancer Dawnshard Horneater - book
         ; Warbreaker - future tests
         Warbreaker Nightblood - book
         ; Months
@@ -44,6 +44,7 @@
         (predecessor TheWayOfKings WordsOfRadiance)
         (predecessor WordsOfRadiance Oathbringer)
         (predecessor Oathbringer RhythmOfWar)
+        (predecessor RhythmOfWar FifthBook)
         (predecessor Oathbringer Dawnshard)
         (predecessor RhythmOfWar Horneater)
         ; Predecessors Warbreaker:

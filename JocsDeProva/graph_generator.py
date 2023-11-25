@@ -20,6 +20,9 @@ class BookGraph:
     def add_independent_node(self, book):
         self.graph.add_node(book, type="independent")
 
+    def remove_edge(self, from_book, to_book):
+        self.graph.remove_edge(from_book, to_book)
+
     def visualize_graph(self):
         pos = nx.spring_layout(self.graph)
         # Group edges by type
@@ -89,7 +92,6 @@ class BookGraph:
                 number_parallels = round(random.randint(0, len(available_parallel_books) - 1) * (self.chance_parallel_books - (self.chance_parallel_books * (len(available_parallel_books) / self.num_books))/1.5))
                 if number_parallels == 0:
                     number_parallels = 1 if random.random() < self.chance_parallel_books  else 0
-                    print(number_parallels)
                 parallels = random.sample(list(available_parallel_books - set([book]) - set(predecesors)), number_parallels)
                 for parallel in parallels:
                     self.add_parallel_edge(parallel, book)
@@ -180,7 +182,7 @@ class BookGraph:
         self.add_sequential_edge("The Bands of Mourning", "Mistborn: Secret History")
         self.add_sequential_edge("The Hero of Ages", "Oathbringer")
         
-        if level == "03":
+        if level == "11":
             self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
             return
         
@@ -189,7 +191,23 @@ class BookGraph:
         self.add_sequential_edge("Words of Radiance", "Edgedancer")
         self.add_sequential_edge("Edgedancer", "Oathbringer")
 
-        if level == "04":
+        if level == "12":
+            self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
+            return
+        
+        self.remove_edge("Oathbringer", "Mistborn: Secret History")
+        self.add_parallel_edge("Oathbringer", "Mistborn: Secret History")
+        self.remove_edge("Warbreaker", "Words of Radiance")
+        self.add_parallel_edge("Warbreaker", "Words of Radiance")
+
+        if level == "21":
+            self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
+            return
+        
+        self.remove_edge("The Hero of Ages", "Mistborn: Secret History")
+        self.add_parallel_edge("The Hero of Ages", "Mistborn: Secret History")  
+
+        if level == "22":
             self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
             return
         
@@ -197,7 +215,7 @@ class BookGraph:
 
 
  
-#BookGraph(0,0,0,0).make_mistborn("04")
+
 # Test
 """
 graph = BookGraph(15,42)
@@ -205,3 +223,6 @@ graph.generate_graph(3)
 graph.visualize_graph()
 print(graph.get_parallel_edge_nodes(), graph.get_sequetial_edge_nodes())
 """
+
+# Creation of graphs for manual testing:
+# BookGraph(0,0,0,0).make_mistborn("22")
