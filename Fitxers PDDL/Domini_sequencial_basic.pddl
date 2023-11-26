@@ -14,6 +14,7 @@
     (to-read ?book - book)
     (predecessor ?book - book ?y - book)
   )
+
   (:action change_month
     :precondition(
         < (monthnum) 13
@@ -30,13 +31,14 @@
         ( = (number_month ?month) (monthnum))
         (not (read ?book))
         (to-read ?book)
-        (forall ; For each predecessor, it has to have been read in a previous month
+        (exists ; For each predecessor, it has to have been read in a previous month
           (?pred - book) 
           (imply 
             (predecessor ?pred ?book)
-            (and (read ?pred)
+            (and 
+              (read ?pred)
               (or
-                (not ( = (assigned ?pred) (monthnum)))
+                ( < (assigned ?pred) (monthnum))
                 (not (to-read ?pred))
               )
             )
@@ -49,6 +51,7 @@
         (read ?book)
       )
   )
+
   (:action assign_to_read
       :parameters (?book - book ?pred - book)
       :precondition (

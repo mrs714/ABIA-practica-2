@@ -11,7 +11,7 @@
     (read ?book - book)
     (to-read ?book - book)
     (assigned ?book - book ?month - month)
-    (predecessor ?book - book ?y - book)
+    (predecessor ?pred - book ?book - book)
   )
 
   (:action assign_to_month
@@ -22,24 +22,24 @@
         (to-read ?book)
         (exists ; For each predecessor, it has to have been read in a previous month
           (?pred - book) 
-          (and 
-            (predecessor ?pred ?book)  
-            (read ?pred) 
-            (or
-              (not (to-read ?pred))
-              (exists 
-                (?month_pred - month)
-                (and  
-                  (assigned ?pred ?month_pred) 
-                  (> (number_month ?month) (number_month ?month_pred))
+          (imply 
+            (predecessor ?pred ?book) 
+            (and 
+              (read ?pred) 
+              (or
+                (not (to-read ?pred))
+                (exists 
+                  (?month_pred - month)
+                  (and  
+                    (assigned ?pred ?month_pred) 
+                    (> (number_month ?month) (number_month ?month_pred))
+                  )
                 )
               )
             )
-            
           )
         )
-    )
-  
+      )
     :effect ( 
         and
         (assigned ?book ?month)
