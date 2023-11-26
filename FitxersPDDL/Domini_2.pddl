@@ -1,6 +1,9 @@
 (define (domain books)
   (:requirements :strips :typing :adl :fluents)
   (:types book month - object
+    ; Subtypes for books
+    predecessor_book - book
+    parallel_book - book ; Not used for now
   )   
 
   (:functions 
@@ -15,58 +18,58 @@
     (parallel ?par - book ?book - book)
   )
 
-  (:action assign_to_month
+  (:action assign_to_month_sequential
     :parameters (?book - book ?month - month)
     :precondition (
       and 
       (not (read ?book))
       (to-read ?book)
-      (forall ; For each predecessor, parallel, it has to have been read in a previous month/next month
-        (?other_book - book)
-        (and
-          (imply ; Sequential
-            (predecessor ?other_book ?book) 
+      (forall ; For each predecessor, it has to have been read in a previous month/next month
+        (?other_book - predecessor_book)
+        (imply ; Sequential
+          (predecessor ?other_book ?book) 
+          (and 
+            (read ?other_book)
+            (or
+              (not (to-read ?other_book))
+              (exists 
+                (?month_pred - month)
+                (and  
+                  (assigned ?other_book ?month_pred) 
+                  (> (number_month ?month) (number_month ?month_pred))
+                )
+              )
+            )
+          )
+        )
+      )
+      (forall (?other_book - parallel_book) ; Parallel
+        (imply ; Parallel
+          (or
+            (parallel ?other_book ?book) 
+            (parallel ?book ?other_book)
+          )
+          ( or
             (and 
               (read ?other_book)
               (or
                 (not (to-read ?other_book))
                 (exists 
-                  (?month_pred - month)
+                  (?month_par - month)
                   (and  
-                    (assigned ?other_book ?month_pred) 
-                    (> (number_month ?month) (number_month ?month_pred))
-                  )
-                )
-              )
-            )
-          )
-          (imply ; Parallel
-            (or
-              (parallel ?other_book ?book) 
-              (parallel ?book ?other_book)
-            )
-            ( or
-              (and 
-                (read ?other_book)
-                (or
-                  (not (to-read ?other_book))
-                  (exists 
-                    (?month_par - month)
-                    (and  
-                      (assigned ?other_book ?month_par) ; next, previous, or same month
-                      (or
-                        (= (number_month ?month) (+ (number_month ?month_par) 1))
-                        (= (number_month ?month) (- (number_month ?month_par) 1))
-                        (= (number_month ?month) (number_month ?month_par))
-                      )
+                    (assigned ?other_book ?month_par) ; next, previous, or same month
+                    (or
+                      (= (number_month ?month) (+ (number_month ?month_par) 1))
+                      (= (number_month ?month) (- (number_month ?month_par) 1))
+                      (= (number_month ?month) (number_month ?month_par))
                     )
                   )
                 )
               )
-              (and
-                (not (read ?other_book))
-                (to-read ?other_book)
-              )
+            )
+            (and
+              (not (read ?other_book))
+              (to-read ?other_book)
             )
           )
         )
