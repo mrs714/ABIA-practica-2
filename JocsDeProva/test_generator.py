@@ -15,8 +15,8 @@ show_graph = True
 
 config_range = 1
 
-level = [3 for i in range(config_range)]
-num_books = [15 + i for i in range(config_range)]
+level = [2 for i in range(config_range)]
+num_books = [10 + i for i in range(config_range)]
 domain = "books"
 predecessor_chance = [0.5 for i in range(config_range)] # Chance of a book having a predecesor - level 0
 parallel_chance = [0.1 for i in range(config_range)] # Chance of a book having a parallel - level 2
@@ -113,7 +113,7 @@ for test in range(len(level)):
             problem_file.write(f"        (predecessor book{predecessor} book{book})\n")
 
         for parallel, book in parallel_pairs:
-            problem_file.write(f"        (papapapa book{parallel} book{book})\n")
+            problem_file.write(f"        (parallel book{parallel} book{book})\n")
 
         # Information about read books and books to read
         for book in read_books:
