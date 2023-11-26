@@ -20,7 +20,7 @@
     :precondition (
         and 
         (not (read ?book))
-        (to-read ?book)
+        (to-read ?book) ;posible opt: podemos hacer que no esté to-read 
         (forall ; For each predecessor, parallel, it has to have been read in a previous month/next month
           (?other_book - book)
           (and
@@ -28,7 +28,7 @@
               (predecessor ?other_book ?book) 
               (and 
                 (read ?other_book)
-                (or
+                (or(forall (?book - book) (imply (to-read ?book) (read ?book)))
                   (not (to-read ?other_book))
                   (exists 
                     (?month_pred - month)
