@@ -38,7 +38,7 @@
             (and 
               (read ?pred)
               (or
-                ( < (assigned ?pred) (monthnum))
+                (not (= (assigned ?pred) (monthnum)))
                 (not (to-read ?pred))
               )
             )

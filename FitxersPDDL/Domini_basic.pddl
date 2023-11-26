@@ -17,12 +17,19 @@
   (:action assign_to_month
     :parameters (?book - book ?month - month)
     :precondition (
-        and 
-        (not (read ?book))
-        (to-read ?book)
-        (exists ; For each predecessor, it has to have been read in a previous month
+      and 
+      (not (read ?book))
+      (to-read ?book)
+      (or
+        (not 
+          (exists 
+            (?pred - book) 
+            (predecessor ?pred ?book)
+            )
+          )
+        (exists 
           (?pred - book) 
-          (imply 
+          (and
             (predecessor ?pred ?book) 
             (and 
               (read ?pred) 
@@ -40,6 +47,7 @@
           )
         )
       )
+    )
     :effect ( 
         and
         (assigned ?book ?month)
