@@ -11,6 +11,7 @@
     (next_month ?month - month ?next - month)
     (curr_month ?month - month)
   )
+
   (:action change_month
     :parameters (?month - month ?next - month)
     :precondition(
@@ -52,6 +53,7 @@
         (read ?book)
       )
   )
+  
   (:action assign_to_read
       :parameters (?book - book ?pred - book)
       :precondition (

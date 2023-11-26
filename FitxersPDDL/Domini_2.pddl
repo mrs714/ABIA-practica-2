@@ -42,7 +42,7 @@
             )
             (imply ; Parallel
               (or
-                (parallel ?other_book ?book) 
+                (parallel ?other_book ?book) ;posible optimizacion haciendo que los paralelos sean commutativos de alguna forma
                 (parallel ?book ?other_book)
               )
               (and 
