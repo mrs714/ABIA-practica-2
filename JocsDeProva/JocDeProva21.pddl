@@ -27,11 +27,12 @@
         (read TheWayOfKings)
         (read TheAlloyOfLaw)
         ; To read books:
-        (to-read MistbornSecretHistory)
-        (to-read TheLostMetal)
-        (to-read TheBandsOfMourning)
-        (to-read ShadowsOfSelf)
-        (to-read RhythmOfWar)
+        ;(to-read MistbornSecretHistory)
+         ;(to-read TheLostMetal)
+         ;(to-read TheBandsOfMourning)
+         ;(to-read ShadowsOfSelf)
+         ;(to-read RhythmOfWar)
+        (to-read Warbreaker)
         ; Predecessors Mistborn series:
         (predecessor TheFinalEmpire TheWellOfAscension)
         (predecessor TheWellOfAscension TheHeroOfAges)  

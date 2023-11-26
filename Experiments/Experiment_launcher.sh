@@ -12,14 +12,14 @@ out_of_memory=false
 # Define lists
 domain_files=()
 for ((i=0; i<files_init; i++)); do
-    domain_files+=("../FitxersPDDL/Domini_1.pddl")
+    domain_files+=("../FitxersPDDL/Domini_2.pddl")
 done
 
 problem_files=()
 # problem_files+=("../JocsDeProva/testX_$i.pddl") for automatic generation, X level
 # problem_files+=("../JocsDeProva/JocDeProvaXY.pddl") for manual generation, X level, Y problem (1 or 2)
 for ((i=0; i<files_init; i++)); do
-    problem_files+=("../JocsDeProva/JocDeProva04.pddl")
+    problem_files+=("../JocsDeProva/JocDeProva21.pddl")
 done
 
 run_fluents=()
