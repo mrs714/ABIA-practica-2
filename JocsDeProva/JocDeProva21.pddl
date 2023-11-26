@@ -49,6 +49,7 @@
         (to-read ShadowsOfSelf)
         (to-read RhythmOfWar)
         (to-read Warbreaker)
+        (to-read Nightblood)
         ; Predecessors Mistborn series:
         (predecessor TheFinalEmpire TheWellOfAscension)
         (predecessor TheWellOfAscension TheHeroOfAges)  

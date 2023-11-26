@@ -3,7 +3,7 @@
   (:types book month - object
     ; Subtypes for books
     predecessor_book - book
-    parallel_book - book ; Not used for now
+    parallel_book - book
   )   
 
   (:functions 
