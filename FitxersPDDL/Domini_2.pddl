@@ -18,33 +18,34 @@
   (:action assign_to_month
     :parameters (?book - book ?month - month)
     :precondition (
-        and 
-        (not (read ?book))
-        (to-read ?book) ;posible opt: podemos hacer que no esté to-read 
-        (forall ; For each predecessor, parallel, it has to have been read in a previous month/next month
-          (?other_book - book)
-          (and
-            (imply ; Sequential
-              (predecessor ?other_book ?book) 
-              (and 
-                (read ?other_book)
-                (or(forall (?book - book) (imply (to-read ?book) (read ?book)))
-                  (not (to-read ?other_book))
-                  (exists 
-                    (?month_pred - month)
-                    (and  
-                      (assigned ?other_book ?month_pred) 
-                      (> (number_month ?month) (number_month ?month_pred))
-                    )
+      and 
+      (not (read ?book))
+      (to-read ?book) ;posible opt: podemos hacer que no esté to-read 
+      (forall ; For each predecessor, parallel, it has to have been read in a previous month/next month
+        (?other_book - book)
+        (and
+          (imply ; Sequential
+            (predecessor ?other_book ?book) 
+            (and 
+              (read ?other_book)
+              (or(forall (?book - book) (imply (to-read ?book) (read ?book)))
+                (not (to-read ?other_book))
+                (exists 
+                  (?month_pred - month)
+                  (and  
+                    (assigned ?other_book ?month_pred) 
+                    (> (number_month ?month) (number_month ?month_pred))
                   )
                 )
               )
             )
-            (imply ; Parallel
-              (or
-                (parallel ?other_book ?book) ;posible optimizacion haciendo que los paralelos sean commutativos de alguna forma
-                (parallel ?book ?other_book)
-              )
+          )
+          (imply ; Parallel
+            (or
+              (parallel ?other_book ?book) ;posible optimizacion haciendo que los paralelos sean commutativos de alguna forma
+              (parallel ?book ?other_book)
+            )
+            ( or
               (and 
                 (read ?other_book)
                 (or
@@ -62,10 +63,15 @@
                   )
                 )
               )
+              (and
+                (not (read ?other_book))
+                (to-read ?other_book)
+              )
             )
           )
         )
       )
+    )
     :effect ( 
         and
         (assigned ?book ?month)
