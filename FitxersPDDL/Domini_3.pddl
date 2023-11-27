@@ -9,6 +9,9 @@
   (:functions 
     (number_month ?month - month)
     (pages ?book - book)
+    (month_pages ?month - month)
+    (total_pages)
+    (total_deviation)
   )
 
   (:predicates 
@@ -77,10 +80,26 @@
       )
     )
     :effect ( 
-        and
-        (assigned ?book ?month)
-        (read ?book)
+      and
+      (assigned ?book ?month)
+      (read ?book)
+      (increase (month_pages ?month) (+ (month_pages ?month) (pages ?book)))
+      (increase (total_pages) (+ (total_pages) (pages ?book)))
+      (assign (total_deviation) 0)
+      (forall 
+        (?month - month) 
+        (assign 
+          (total_deviation) 
+          (+ 
+            (total_deviation) 
+            (* 
+              (- (month_pages ?month) (/ (total_pages) 12))
+              (- (month_pages ?month) (/ (total_pages) 12))
+            )
+          )
+        )
       )
+    )
   )
   
   ; Per a cada llibre sequencial a un que s'ha de llegir, assignarlo a to-read

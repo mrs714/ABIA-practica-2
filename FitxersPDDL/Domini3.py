@@ -1,1 +1,0 @@
-print("Llegeix el que vulguis")

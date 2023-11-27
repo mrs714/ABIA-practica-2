@@ -1,4 +1,4 @@
-(define (problem test1_0)
+(define (problem JocDeProva31)
     (:domain books)
     (:objects
         ; Mistborn series - books
@@ -94,7 +94,31 @@
         (= (pages Warbreaker) 592)
         (= (pages Nightblood) 448)
 
+        ; Pages for each month
+        (= (month_pages January) 0)
+        (= (month_pages February) 0)
+        (= (month_pages March) 0)
+        (= (month_pages April) 0)
+        (= (month_pages May) 0)
+        (= (month_pages June) 0)
+        (= (month_pages July) 0)
+        (= (month_pages August) 0)
+        (= (month_pages September) 0)
+        (= (month_pages October) 0)
+        (= (month_pages November) 0)
+        (= (month_pages December) 0)
+
+        ; Total pages read
+        (= (total_pages) 0)
+
+        ; Amount of pages deviated from the average (squared)
+        (= (total_deviation) 0)
+
     )
     
+    ; We want to minimize the difference between the average pages read per month and the pages read per month
+    ; As neither abs or square root are available, we use the sum of the squared differences
+    (:metric minimize (total_deviation))
+
     (:goal (forall (?book - book) (imply (to-read ?book) (read ?book))))
 )
