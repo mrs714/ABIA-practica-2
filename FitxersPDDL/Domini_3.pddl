@@ -19,7 +19,7 @@
     (parallel ?par - book ?book - book)
   )
 
-  (:action assign_to_month_sequential
+  (:action assign_to_month
     :parameters (?book - book ?month - month)
     :precondition (
       and 
