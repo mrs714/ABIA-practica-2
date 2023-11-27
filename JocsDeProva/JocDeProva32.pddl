@@ -67,13 +67,12 @@
         (predecessor Edgedancer Oathbringer)
         ; Predecessors Warbreaker:
         (predecessor Warbreaker Nightblood)
-        ; Predecessors i predecessors combinats
+        ; Predecessors i paral·lels combinats
         (parallel Warbreaker WordsOfRadiance)
         (parallel Oathbringer MistbornSecretHistory)
-        (predecessor TheHeroOfAges Oathbringer)
+        (parallel TheHeroOfAges Oathbringer)
 
         ; Pages for each book:
-        
         (= (pages TheFinalEmpire) 296)
         (= (pages TheWellOfAscension) 381)
         (= (pages TheHeroOfAges) 321)
