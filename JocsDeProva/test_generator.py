@@ -80,13 +80,13 @@ for test in range(len(level)):
         else:
             for book in normal_books:
                 problem_file.write(f"book{book} ")
-            problem_file.write("- normal-book\n        ")
+            problem_file.write("- book\n        ")
             for book in sequential_books:
                 problem_file.write(f"book{book} ")
-            problem_file.write("- sequential-book\n        ")
+            problem_file.write("- predecessor_book\n        ")
             for book in parallel_books:
                 problem_file.write(f"book{book} ")
-            problem_file.write("- parallel-book\n        ")
+            problem_file.write("- parallel_book\n        ")
 
         # Objects: months
         for month in months:
