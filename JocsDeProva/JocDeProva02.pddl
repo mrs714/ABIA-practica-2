@@ -1,4 +1,4 @@
-(define (problem test1_0)
+(define (problem JocDeProva02)
     (:domain books)
     (:objects
         ; Mistborn series
