@@ -20,9 +20,6 @@
         ; Warbreaker - parallels
         Warbreaker - parallel_book
 
-        
-
-
         ; Months
         January February March April May June July August September October November December - month
     )
@@ -71,7 +68,7 @@
         (predecessor Edgedancer Oathbringer)
         ; Predecessors Warbreaker:
         (predecessor Warbreaker Nightblood)
-        ; Predecessors i predecessors combinats
+        ; Predecessors i paral·lels combinats
         (parallel Warbreaker WordsOfRadiance)
         (parallel Oathbringer MistbornSecretHistory)
         (predecessor TheHeroOfAges Oathbringer)
