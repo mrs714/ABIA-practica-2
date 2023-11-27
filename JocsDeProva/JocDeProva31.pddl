@@ -1,12 +1,25 @@
 (define (problem test1_0)
     (:domain books)
     (:objects
-        ; Mistborn series
-        TheFinalEmpire TheWellOfAscension TheHeroOfAges TheAlloyOfLaw ShadowsOfSelf TheBandsOfMourning TheLostMetal TheEleventhMetal AllomancerJak MistbornSecretHistory - book
-        ; The Stormlight Archive
-        TheWayOfKings WordsOfRadiance Oathbringer RhythmOfWar FifthBook Edgedancer Dawnshard Horneater - book
-        ; Warbreaker - future tests
-        Warbreaker Nightblood - book
+        ; Mistborn series - books
+        TheLostMetal TheEleventhMetal AllomancerJak MistbornSecretHistory - book
+        ; Mistborn series - predecessors
+        TheFinalEmpire TheWellOfAscension TheHeroOfAges TheAlloyOfLaw ShadowsOfSelf TheBandsOfMourning - predecessor_book
+
+        ; The Stormlight Archive - books
+        FifthBook Horneater Dawnshard - book
+        ; The Stormlight Archive - predecessors
+        TheWayOfKings WordsOfRadiance Oathbringer RhythmOfWar Edgedancer - predecessor_book
+        ; The Stormlight Archive - parallels
+        Oathbringer - parallel_book
+        
+        ; Warbreaker - books
+        Nightblood - book
+        ; Warbreaker - predecessors
+        Warbreaker - predecessor_book
+        ; Warbreaker - parallels
+        Warbreaker - parallel_book
+
         ; Months
         January February March April May June July August September October November December - month
     )
