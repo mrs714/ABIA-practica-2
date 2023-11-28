@@ -45,17 +45,18 @@
         (to-read TheBandsOfMourning)
         (to-read ShadowsOfSelf)
         (to-read RhythmOfWar)
+        (to-read Warbreaker)
+        (to-read Nightblood)
         ; Predecessors Mistborn series:
         (predecessor TheFinalEmpire TheWellOfAscension)
         (predecessor TheWellOfAscension TheHeroOfAges)  
+        (predecessor TheHeroOfAges MistbornSecretHistory)
         (predecessor TheAlloyOfLaw ShadowsOfSelf)
         (predecessor ShadowsOfSelf TheBandsOfMourning)
         (predecessor TheBandsOfMourning TheLostMetal)
         (predecessor TheBandsOfMourning MistbornSecretHistory)
         (predecessor TheHeroOfAges TheEleventhMetal)
         (predecessor TheAlloyOfLaw AllomancerJak)
-        ; Parallel Mistborn series:
-        (parallel TheHeroOfAges MistbornSecretHistory)
         ; Predecessors The Stormlight Archive:
         (predecessor TheWayOfKings WordsOfRadiance)
         (predecessor WordsOfRadiance Oathbringer)
@@ -70,7 +71,7 @@
         ; Predecessors i paral·lels combinats
         (parallel Warbreaker WordsOfRadiance)
         (parallel Oathbringer MistbornSecretHistory)
-        (parallel TheHeroOfAges Oathbringer)
+        (predecessor TheHeroOfAges Oathbringer)
 
         ; Pages for each book:
         (= (pages TheFinalEmpire) 669)
@@ -108,17 +109,26 @@
         (= (month_pages November) 0)
         (= (month_pages December) 0)
 
-        ; Total pages read
-        (= (total_pages) 0)
+        ; We need to manually calculate the average pages read per month
+        ; Books to read, including predecessors and parallels
+
+        ; ShadowsOfSelf TheBandsOfMourning TheLostMetal WordsOfRadiance Warbreaker Edgedancer
+        ; Oathbringer MistbornSecretHistory RhythmOfWar TheFinalEmpire TheWellOfAscension TheHeroOfAges
+
+        ; Number of pages for each book:
+        ; 400 480 528 800 592 272 800 240 800 669 640 608
+        ; Total pages: 6737
+        ; Monthly average (total/12): 561.4166666666667
+        ;(= (average_pages) 561)
 
         ; Amount of pages deviated from the average (squared)
-        (= (total_deviation) 0)
+        ;(= (total_deviation) 0)
 
     )
     
     ; We want to minimize the difference between the average pages read per month and the pages read per month
     ; As neither abs or square root are available, we use the sum of the squared differences
-    (:metric minimize (total_deviation))
+    ;(:metric minimize (total_deviation))
 
     (:goal (forall (?book - book) (imply (to-read ?book) (read ?book))))
 )

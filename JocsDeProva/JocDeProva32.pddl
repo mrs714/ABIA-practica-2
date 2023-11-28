@@ -45,17 +45,18 @@
         (to-read TheBandsOfMourning)
         (to-read ShadowsOfSelf)
         (to-read RhythmOfWar)
+        (to-read Warbreaker)
+        (to-read Nightblood)
         ; Predecessors Mistborn series:
         (predecessor TheFinalEmpire TheWellOfAscension)
         (predecessor TheWellOfAscension TheHeroOfAges)  
+        (predecessor TheHeroOfAges MistbornSecretHistory)
         (predecessor TheAlloyOfLaw ShadowsOfSelf)
         (predecessor ShadowsOfSelf TheBandsOfMourning)
         (predecessor TheBandsOfMourning TheLostMetal)
         (predecessor TheBandsOfMourning MistbornSecretHistory)
         (predecessor TheHeroOfAges TheEleventhMetal)
         (predecessor TheAlloyOfLaw AllomancerJak)
-        ; Parallel Mistborn series:
-        (parallel TheHeroOfAges MistbornSecretHistory)
         ; Predecessors The Stormlight Archive:
         (predecessor TheWayOfKings WordsOfRadiance)
         (predecessor WordsOfRadiance Oathbringer)
@@ -70,7 +71,7 @@
         ; Predecessors i paral·lels combinats
         (parallel Warbreaker WordsOfRadiance)
         (parallel Oathbringer MistbornSecretHistory)
-        (parallel TheHeroOfAges Oathbringer)
+        (predecessor TheHeroOfAges Oathbringer)
 
         ; Pages for each book:
         (= (pages TheFinalEmpire) 296)
