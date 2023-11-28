@@ -24,6 +24,8 @@ read_books_percentage = [0.3 for i in range(config_range)] # Percentage of books
 books_to_read_percentage = [0.3 for i in range(config_range)] # Percentage of books that the user wants to read
 random_seed = 42 # Set the random seed to get the same results
 
+sequential_program = True # True to use the sequential program, False to use the normal one
+
 months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November","December"]
 
 random.seed(random_seed)
@@ -96,6 +98,8 @@ for test in range(len(level)):
 
         # Initial state definition
         problem_file.write("    (:init\n")
+        if sequential_program:
+            problem_file.write("        (= (monthnum) 0)\n")
         for month in range(len(months)):
             problem_file.write(f"        (= (number_month {months[month]}) {month})\n")
 
