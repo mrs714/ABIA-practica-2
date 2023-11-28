@@ -13,9 +13,9 @@ show_graph = False
 #level = [0, 1, 2, 3] # 0: basic (0, 1 predecesor), 1: extension 1 (N predecesors), 2: extension 2 (M paralel), 3: extension 3 (pages)
 #num_books = [30, 15, 20, 50]
 
-config_range = 40
+config_range = 25
 
-level = [0 for i in range(config_range)]
+level = [1 for i in range(config_range)]
 num_books = [10 + i for i in range(config_range)]
 domain = "books"
 predecessor_chance = [0.3 for i in range(config_range)] # Chance of a book having a predecesor - level 0

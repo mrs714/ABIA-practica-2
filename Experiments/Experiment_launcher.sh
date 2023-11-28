@@ -4,7 +4,7 @@
 files_init=40
 
 # Number of iterations for each file
-num_iterations=50
+num_iterations=5
 
 # Wether an iteration has run out of memory or not
 out_of_memory=false
@@ -12,14 +12,14 @@ out_of_memory=false
 # Define lists
 domain_files=()
 for ((i=0; i<files_init; i++)); do
-    domain_files+=("../FitxersPDDL/Domini_sequencial_basic.pddl")
+    domain_files+=("../FitxersPDDL/Domini_sequencial_1.pddl")
 done
 
 problem_files=()
 # problem_files+=("../JocsDeProva/testX_$i.pddl") for automatic generation, X level
 # problem_files+=("../JocsDeProva/JocDeProvaXY.pddl") for manual generation, X level, Y problem (1 or 2)
 for ((i=0; i<files_init; i++)); do
-    problem_files+=("../JocsDeProva/test0_$i.pddl")
+    problem_files+=("../JocsDeProva/test1_$i.pddl")
 done
 
 run_fluents=()
