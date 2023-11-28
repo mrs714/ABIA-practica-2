@@ -24,7 +24,7 @@ done
 
 run_fluents=()
 for ((i=0; i<files_init; i++)); do
-    run_fluents+=(false)
+    run_fluents+=(true)
 done
 
 planner="../FitxersPDDL/metricff.exe"
