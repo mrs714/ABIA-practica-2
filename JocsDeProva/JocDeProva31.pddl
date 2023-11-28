@@ -119,10 +119,10 @@
         ; 400 480 528 800 592 272 800 240 800 669 640 608
         ; Total pages: 6737
         ; Monthly average (total/12): 561.4166666666667
-        ;(= (average_pages) 561)
+        (= (average_pages) 561)
 
         ; Amount of pages deviated from the average (squared)
-        ;(= (total_deviation) 0)
+        (= (total_deviation) 0)
 
     )
     

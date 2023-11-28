@@ -84,8 +84,13 @@
       (assigned ?book ?month)
       (read ?book)
       (increase (month_pages ?month) (+ (month_pages ?month) (pages ?book)))
-      (assign (total_deviation) 0)
-      
+      ; Reset total deviation
+      ;(assign (total_deviation) 0) - this line makes the code fail if we do an increase later
+      ; For each month, add the deviation to the total deviation
+      (decrease (total_deviation) (total_deviation))
+      (forall (?month - month)
+        (increase (total_deviation) (+ (total_deviation) (- (month_pages ?month) (average_pages))))
+      )
     )
   )
   
