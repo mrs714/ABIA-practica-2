@@ -19,7 +19,7 @@ problem_files=()
 # problem_files+=("../JocsDeProva/testX_$i.pddl") for automatic generation, X level
 # problem_files+=("../JocsDeProva/JocDeProvaXY.pddl") for manual generation, X level, Y problem (1 or 2)
 for ((i=0; i<files_init; i++)); do
-    problem_files+=("../JocsDeProva/JocDeProva31.pddl")
+    problem_files+=("../JocsDeProva/JocDeProva32.pddl")
 done
 
 run_fluents=()
@@ -59,6 +59,8 @@ for ((i=0; i<${#domain_files[@]}; i++)); do
     echo "Problem File: $problem_file"
     echo "Planner: $planner"
     echo "Command: $planner -o $domain_file -f $problem_file"
+    echo "Fluents activated: $run_fluent. If true use -O flag"
+
 
 "$planner" -o "$domain_file" -f "$problem_file"
 

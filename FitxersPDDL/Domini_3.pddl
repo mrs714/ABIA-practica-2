@@ -12,6 +12,7 @@
     (month_pages ?month - month)
     (average_pages)
     (total_deviation)
+    (assist_value)
   )
 
   (:predicates 
@@ -86,9 +87,14 @@
       (increase (month_pages ?month) (+ (month_pages ?month) (pages ?book)))
       ; Reset total deviation
       (decrease (total_deviation) (total_deviation))
+      (decrease (assist_value) (assist_value))
       ; For each month, add the deviation to the total deviation
       (forall (?month - month)
-        (increase (total_deviation) (+ (total_deviation) (- (month_pages ?month) (average_pages))))
+        ( and ; AAAAAAAAAAAAAAA - aquest codi dona un fallo per no lineal
+          (increase (assist_value) (- (month_pages ?month) (average_pages)))
+          (assign (assist_value) (* (assist_value) (- (month_pages ?month) (average_pages))))
+          (increase (total_deviation) (+ (total_deviation) (- (month_pages ?month) (average_pages))))
+        )
       )
     )
   )
