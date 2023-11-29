@@ -24,6 +24,7 @@
         January February March April May June July August September October November December - month
     )
     (:init
+        (= (maxpages) 800)
         (= (monthnum) 0)
         (= (number_month January) 0)
         (= (number_month February) 1)
@@ -111,6 +112,7 @@
         (= (month_pages December) 0)
 
     )
+    (:metric minimize (maxpages))
     
     ; We want to minimize the difference between the average pages read per month and the pages read per month
     ; As neither abs or square root are available, we use the sum of the squared differences

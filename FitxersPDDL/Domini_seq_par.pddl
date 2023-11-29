@@ -9,6 +9,7 @@
     (monthnum)
     (pages ?book - book)
     (month_pages ?month - month)
+    (maxpages)
   )
 
   (:predicates 
@@ -16,6 +17,7 @@
     (to-read ?book - book)
     (predecessor ?book - book ?y - book)
     (parallel ?book - book ?y - book)
+    (first)
   )
 
   (:action change_month
@@ -23,7 +25,17 @@
         < (monthnum) 13
     )
     :effect(
-        increase (monthnum) 1
+        and 
+        (increase (monthnum) 1)
+
+    )
+  )
+  (:action _pages
+    :precondition(
+      not (first)
+    )
+    :effect(
+      decrease (maxpages) 50
     )
   )
 
@@ -32,7 +44,7 @@
     :precondition (
         and 
         ( = (number_month ?month) (monthnum))
-        (not (< 800 (+ (pages ?book) (month_pages ?month))))
+        (not (< (maxpages) (+ (pages ?book) (month_pages ?month))))
         (not (read ?book))
         (to-read ?book)
         (forall ; For each predecessor, it has to have been read in a previous month
@@ -77,7 +89,8 @@
         (assign (assigned ?book) (monthnum))
         (read ?book)
         (increase (month_pages ?month) (pages ?book))
-      )
+        (first)
+    ) 
   )
 
   (:action assign_to_read
