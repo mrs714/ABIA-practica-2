@@ -13,8 +13,8 @@
     (read ?book - book)
     (to-read ?book - book)
     (assigned ?book - book ?month - month)
-    (predecessor ?pred - book ?book - book)
-    (parallel ?par - book ?book - book)
+    (predecessor ?pred - predecessor_book ?book - book)
+    (parallel ?par - parallel_book ?book - parallel_book)
   )
 
   (:action assign_to_month
@@ -42,6 +42,7 @@
           )
         )
       )
+
       (forall (?other_book - parallel_book) ; Parallel
         (imply ; Parallel
           (or
@@ -82,16 +83,12 @@
   )
   
   ; Per a cada llibre sequencial a un que s'ha de llegir, assignarlo a to-read
-  (:action assign_to_read
-      :parameters (?book - book ?other_book - book)
+  (:action assign_to_read_pred
+      :parameters (?book - predecessor_book ?other_book - predecessor_book)
       :precondition (
         and 
         (to-read ?book)
-        (or
-          (predecessor ?other_book ?book)
-          (parallel ?other_book ?book)
-          (parallel ?book ?other_book)
-        )
+        (predecessor ?other_book ?book)        
         (not (read ?other_book))
         (not (to-read ?other_book))
       )
@@ -99,5 +96,21 @@
         to-read ?other_book
       )
   )
+
+  (:action assign_to_read_par
+      :parameters (?book - parallel_book ?other_book - parallel_book)
+      :precondition (
+        and 
+        (to-read ?book)
+        (or
+          (parallel ?book ?other_book)
+          (parallel ?other_book ?book)
+        )
+        (not (read ?other_book))
+        (not (to-read ?other_book))
+        )
+      :effect (and )
+  )
+  
   
 )
