@@ -2,18 +2,18 @@
     (:domain books)
     (:objects
         ; Mistborn series - books
-        TheLostMetal TheEleventhMetal AllomancerJak MistbornSecretHistory - book
+        TheLostMetal TheEleventhMetal AllomancerJak  - book
         ; Mistborn series - predecessors
         TheFinalEmpire TheWellOfAscension TheHeroOfAges TheAlloyOfLaw ShadowsOfSelf TheBandsOfMourning - predecessor_book
         ; Mistborn series - parallels
-        TheHeroOfAges - parallel_book
+        TheHeroOfAges MistbornSecretHistory - parallel_book ;theHeroOfAges es parallel i no ho era
         
         ; The Stormlight Archive - books
         FifthBook Horneater Dawnshard - book
         ; The Stormlight Archive - predecessors
         TheWayOfKings WordsOfRadiance Oathbringer RhythmOfWar Edgedancer - predecessor_book
         ; The Stormlight Archive - parallels
-        Oathbringer - parallel_book
+        Oathbringer WordsOfRadiance - parallel_book ;wordsofraidance es parallel i no hi era
         
         ; Warbreaker - books
         Nightblood - book

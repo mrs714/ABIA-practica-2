@@ -13,8 +13,8 @@
     (read ?book - book)
     (to-read ?book - book)
     (assigned ?book - book ?month - month)
-    (predecessor ?pred - predecessor_book ?book - book)
-    (parallel ?par - parallel_book ?book - parallel_book)
+    (predecessor ?pred - book ?book - book)
+    (parallel ?par - book ?book - book)
   )
 
   (:action assign_to_month
