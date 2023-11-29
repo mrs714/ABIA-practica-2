@@ -7,7 +7,6 @@
 
   (:functions 
     (number_month ?month - month)
-    (monthnum)
   )
 
   (:predicates 
