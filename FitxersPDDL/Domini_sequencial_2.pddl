@@ -1,6 +1,8 @@
 (define (domain books)
   (:requirements :strips :typing :adl :fluents)
   (:types book month - object
+    ; Subtypes for books
+    predecessor_book parallel_book - book
   )
 
   (:functions 
@@ -17,7 +19,6 @@
     (to-read ?book - book)
     (predecessor ?book - book ?y - book)
     (parallel ?book - book ?y - book)
-    (first)
   )
 
   (:action change_month
@@ -28,14 +29,6 @@
         and 
         (increase (monthnum) 1)
 
-    )
-  )
-  (:action _pages
-    :precondition(
-      not (first)
-    )
-    :effect(
-      decrease (maxpages) 50
     )
   )
 

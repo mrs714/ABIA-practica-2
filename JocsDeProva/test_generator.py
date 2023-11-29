@@ -80,15 +80,18 @@ for test in range(len(level)):
                 problem_file.write(f"book{book} ")
             problem_file.write("- book\n        ")
         else:
-            for book in normal_books:
-                problem_file.write(f"book{book} ")
-            problem_file.write("- book\n        ")
-            for book in sequential_books:
-                problem_file.write(f"book{book} ")
-            problem_file.write("- predecessor_book\n        ")
-            for book in parallel_books:
-                problem_file.write(f"book{book} ")
-            problem_file.write("- parallel_book\n        ")
+            if normal_books:
+                for book in normal_books:
+                    problem_file.write(f"book{book} ")
+                problem_file.write("- book\n        ")
+            if sequential_books:
+                for book in sequential_books:
+                    problem_file.write(f"book{book} ")
+                problem_file.write("- predecessor_book\n        ")
+            if parallel_books:
+                for book in parallel_books:
+                    problem_file.write(f"book{book} ")
+                problem_file.write("- parallel_book\n        ")
 
         # Objects: months
         for month in months:
