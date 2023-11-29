@@ -7,22 +7,24 @@ from graph_generator import BookGraph
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
 # Wether to show the book graph when creating each test
-show_graph = True
+show_graph = False
 
 # Configuration: a test will be generated for each value of the list, with the given level and number of books
 #level = [0, 1, 2, 3] # 0: basic (0, 1 predecesor), 1: extension 1 (N predecesors), 2: extension 2 (M paralel), 3: extension 3 (pages)
 #num_books = [30, 15, 20, 50]
 
-config_range = 1
+config_range = 25
 
-level = [2 for i in range(config_range)]
-num_books = [15 + i for i in range(config_range)]
+level = [1 for i in range(config_range)]
+num_books = [10 + i for i in range(config_range)]
 domain = "books"
-predecessor_chance = [0.5 for i in range(config_range)] # Chance of a book having a predecesor - level 0
+predecessor_chance = [0.3 for i in range(config_range)] # Chance of a book having a predecesor - level 0
 parallel_chance = [0.1 for i in range(config_range)] # Chance of a book having a parallel - level 2
 read_books_percentage = [0.3 for i in range(config_range)] # Percentage of books that have been read
 books_to_read_percentage = [0.3 for i in range(config_range)] # Percentage of books that the user wants to read
 random_seed = 42 # Set the random seed to get the same results
+
+sequential_program = True # True to use the sequential program, False to use the normal one
 
 months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November","December"]
 
@@ -96,6 +98,8 @@ for test in range(len(level)):
 
         # Initial state definition
         problem_file.write("    (:init\n")
+        if sequential_program:
+            problem_file.write("        (= (monthnum) 0)\n")
         for month in range(len(months)):
             problem_file.write(f"        (= (number_month {months[month]}) {month})\n")
 

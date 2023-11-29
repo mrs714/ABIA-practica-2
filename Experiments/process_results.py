@@ -22,7 +22,7 @@ def read_experiment_results(filename):
             for iteration in range(num_iterations):
                 # Read line
                 line = file.readline().strip()
-                parts = line.split('\t') # Format: real 0m0.000s 
+                parts = line.split('\t') # Format: real 0m0.000s
                 time = parts[1] # Format: 0m0.000s
                 minutes = int(time.split('m')[0]) # Format: 0
                 seconds = float(time.split('m')[1][:-1]) # Format: 0.000
