@@ -12,7 +12,7 @@ out_of_memory=false
 # Define lists
 domain_files=()
 for ((i=0; i<files_init; i++)); do
-    domain_files+=("../FitxersPDDL/Domini_sequencial_2.pddl")
+    domain_files+=("../FitxersPDDL/Domini_2.pddl")
 done
 
 problem_files=()
