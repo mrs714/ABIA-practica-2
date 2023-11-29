@@ -15,7 +15,7 @@ show_graph = False
 
 config_range = 25
 
-level = [1 for i in range(config_range)]
+level = [2 for i in range(config_range)]
 num_books = [10 + i for i in range(config_range)]
 domain = "books"
 predecessor_chance = [0.3 for i in range(config_range)] # Chance of a book having a predecesor - level 0
