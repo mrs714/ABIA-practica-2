@@ -84,7 +84,7 @@
   
   ; Per a cada llibre sequencial a un que s'ha de llegir, assignarlo a to-read
   (:action assign_to_read_pred
-      :parameters (?book - predecessor_book ?other_book - predecessor_book)
+      :parameters (?book - book ?other_book - predecessor_book)
       :precondition (
         and 
         (to-read ?book)
