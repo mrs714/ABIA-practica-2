@@ -1,18 +1,15 @@
 (define (domain books)
   (:requirements :strips :typing :adl :fluents)
   (:types book month - object
-    ; Subtypes for book
+    ; Subtypes for books
     predecessor_book - book
     parallel_book - book
   )   
 
   (:functions 
     (number_month ?month - month)
-    (pages ?book - book)
     (month_pages ?month - month)
-    (average_pages)
-    (total_deviation)
-    (assist_value)
+    (pages?book - book)
   )
 
   (:predicates 
@@ -29,6 +26,7 @@
       and 
       (not (read ?book))
       (to-read ?book)
+      (not (< 800 (+ (pages ?book) (month_pages ?month))))
       (forall ; For each predecessor, it has to have been read in a previous month/next month
         (?other_book - predecessor_book)
         (imply ; Sequential
@@ -81,22 +79,11 @@
       )
     )
     :effect ( 
-      and
-      (assigned ?book ?month)
-      (read ?book)
-      (increase (month_pages ?month) (+ (month_pages ?month) (pages ?book)))
-      ; Reset total deviation
-      (decrease (total_deviation) (total_deviation))
-      (decrease (assist_value) (assist_value))
-      ; For each month, add the deviation to the total deviation
-      (forall (?month - month)
-        ( and ; AAAAAAAAAAAAAAA - aquest codi dona un fallo per no lineal
-          (increase (assist_value) (- (month_pages ?month) (average_pages)))
-          (assign (assist_value) (* (assist_value) (- (month_pages ?month) (average_pages))))
-          (increase (total_deviation) (+ (total_deviation) (- (month_pages ?month) (average_pages))))
-        )
+        and
+        (assigned ?book ?month)
+        (increase (month_pages ?month) (pages ?book))
+        (read ?book)
       )
-    )
   )
   
   ; Per a cada llibre sequencial a un que s'ha de llegir, assignarlo a to-read
