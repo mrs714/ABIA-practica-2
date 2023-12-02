@@ -28,6 +28,7 @@
     :effect(
         and 
         (increase (monthnum) 1)
+        
 
     )
   )
@@ -82,7 +83,6 @@
         (assign (assigned ?book) (monthnum))
         (read ?book)
         (increase (month_pages ?month) (pages ?book))
-        (first)
     ) 
   )
 

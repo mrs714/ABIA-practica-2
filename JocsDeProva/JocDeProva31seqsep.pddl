@@ -1,5 +1,6 @@
 (define (problem JocDeProva31)
     (:domain books)
+    
     (:objects
         ; Mistborn series - books
         TheLostMetal TheEleventhMetal AllomancerJak MistbornSecretHistory - book
@@ -11,19 +12,23 @@
         ; The Stormlight Archive - predecessors
         TheWayOfKings WordsOfRadiance Oathbringer RhythmOfWar Edgedancer - predecessor_book
         ; The Stormlight Archive - parallels
-        Oathbringer - book
-        
-        ; Warbreaker - books
+        Oathbringer - parallel_book
+        WordsOfRadiance - parallel_book
+        ; Warbreaker - book
         Nightblood - book
         ; Warbreaker - predecessors
         Warbreaker - predecessor_book
         ; Warbreaker - parallels
-        Warbreaker - book
+        Warbreaker - parallel_book
+        MistbornSecretHistory - parallel_book
 
         ; Months
         January February March April May June July August September October November December - month
     )
+    
     (:init
+
+        (= (monthnum) 0)
         (= (number_month January) 0)
         (= (number_month February) 1)
         (= (number_month March) 2)
@@ -109,22 +114,11 @@
         (= (month_pages November) 0)
         (= (month_pages December) 0)
 
-        ; We need to manually calculate the average pages read per month
-        ; Books to read, including predecessors and parallels
-
-        ; ShadowsOfSelf TheBandsOfMourning TheLostMetal WordsOfRadiance Warbreaker Edgedancer
-        ; Oathbringer MistbornSecretHistory RhythmOfWar TheFinalEmpire TheWellOfAscension TheHeroOfAges
-
-        ; Number of pages for each book:
-        ; 400 480 528 800 592 272 800 240 800 669 640 608
-        ; Total pages: 6737
-        ; Monthly average (total/12): 561.4166666666667
-
     )
-    
     ; We want to minimize the difference between the average pages read per month and the pages read per month
     ; As neither abs or square root are available, we use the sum of the squared differences
-    (:metric minimize (total_deviation))
-
-    (:goal (forall (?book - book) (imply (to-read ?book) (read ?book))))
+    
+    (:goal (and (forall (?book - book) (imply (to-read ?book) (read ?book))) (forall (?book - predecessor_book) (imply (to-read ?book) (read ?book)))))
+    
+    
 )
