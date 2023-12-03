@@ -1,0 +1,3 @@
+('BOOK0', 'DECEMBER')
+('BOOK1', 'NOVEMBER')
+Execution time: 5.10 seconds

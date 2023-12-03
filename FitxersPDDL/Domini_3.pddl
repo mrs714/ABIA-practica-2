@@ -9,8 +9,9 @@
   (:functions 
     (number_month ?month - month)
     (month_pages ?month - month)
-    (pages?book - book)
+    (pages ?book - book)
     (maxpages)
+    (monthnum)
   )
 
   (:predicates 

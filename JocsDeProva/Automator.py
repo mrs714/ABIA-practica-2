@@ -3,14 +3,16 @@ import os
 import random
 from graph_generator import BookGraph
 import numpy
+import time
+import csv
 
 class BookGraphGenerator:
-    def __init__(self, num_books, level=3, domain="books", predecessor_chance=0.5,
-                 parallel_chance=0.3, read_books_percentage=0.3,
+    def __init__(self, num_books, level=3, domain="books", predecessor_chance=0.4,
+                 parallel_chance=0.2, read_books_percentage=0.2,
                  books_to_read_percentage=0.3, random_seed=42,
-                 sequential_program=True):
+                 sequential_program=True, results=True, show_graph = False):
         self.script_dir = os.path.dirname(os.path.realpath(__file__))
-        self.show_graph = True
+        self.show_graph = show_graph
         self.num_books = num_books
         self.level = level
         self.domain = domain
@@ -24,16 +26,23 @@ class BookGraphGenerator:
         random.seed(random_seed)
         numpy.random.seed(random_seed)
         self.assignations = []
+        sequen = "sequencial_" if sequential_program else ""
+        level = level if level != 0 else "basic"
+        self.domain_file = f".\FitxersPDDL\Domini_{sequen}{level}.pddl"
+        self.time = "Not recorded"
+        self.results = results
 
-    def generate_book_graph(self):
+    def generate_book_graph(self, simplified=False):
         self.problem_name = f"test{self.num_books}-{self.level}"
         self.problem_name_path = self.problem_name + ".pddl"
         self.output_file = os.path.join(self.script_dir, self.problem_name_path)
-        self.max_pages = min(5000 // self.num_books, 800)
+        self.max_pages = min(8000 // self.num_books, 800)
         self.min_pages = self.max_pages // 2
         self.graph = BookGraph(num_books=self.num_books, random_seed=self.random_seed, chance_predecesor_books=self.predecessor_chance, chance_parallel_books=self.parallel_chance)
-        self.graph.generate_graph(self.level)
-
+        if not simplified:
+            self.graph.generate_graph(self.level)
+        else:
+            self.graph.generate_simplified_graph(self.level)
         self.sequentials = self.graph.get_sequetial_edge_nodes()
         self.parallels = self.graph.get_parallel_edge_nodes()
         self.others = list(set(self.graph.get_all_nodes()) - set(self.sequentials) - set(self.parallels))
@@ -52,7 +61,13 @@ class BookGraphGenerator:
         print(f"Test {self.problem_name}: {self.num_books} books, {len(self.sequentials)} sequential pairs, {len(self.parallels)} parallel pairs, {len(self.read_books)} read books, {len(self.books_to_read)} books to read")
         if self.show_graph:
             self.graph.paint_reading_plan(self.read_books, self.books_to_read)
-
+    def save_results(self):
+        results_path = "".join([self.script_dir, "/", "results",self.problem_name, ".txt"])
+        with open(results_path, 'w') as fp:
+            for item in self.assignations:
+                # write each item on a new line
+                fp.write("%s\n" % str(item))
+            fp.write(f"Execution time: {self.time:.2f} seconds")
     def write_pddl_file(self):
         with open(self.output_file, 'w') as problem_file:
             # Domain definition
@@ -86,8 +101,7 @@ class BookGraphGenerator:
 
             # Initial state definition
             problem_file.write("    (:init\n")
-            if self.sequential_program:
-                problem_file.write("        (= (monthnum) 0)\n")
+            problem_file.write("        (= (monthnum) 0)\n")
             for month in range(len(self.months)):
                 problem_file.write(f"        (= (number_month {self.months[month]}) {month})\n")
 
@@ -122,25 +136,83 @@ class BookGraphGenerator:
             problem_file.write(")\n")
 
     def run_metricff(self):
-        exec = subprocess.run(["./FitxersPDDL/metricff.exe", "-o", ".\FitxersPDDL\Domini_sequencial_3.pddl", "-f", f"./JocsDeProva/{self.problem_name}.pddl"], capture_output=True)
-        out = str(exec.stdout)
-        output_lines = out.split("\\n")
+        start_time = time.time()
+        process = subprocess.Popen(["./FitxersPDDL/metricff.exe", "-o", self.domain_file, "-f", f"./JocsDeProva/{self.problem_name}.pddl"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        try:
+            stdout, stderr = process.communicate(timeout=20)
+        except:
+            process.terminate()      
+            self.assignations.append("This problem couldn't be solved in less than 20 seconds.")
+            self.time = 20
+            if self.results == True:
+                self.save_results()
+            return 999
+        end_time = time.time()
+        out = stdout.decode("utf-8")
+        output_lines = out.split("\n")
+        
         output_lines = [o.lstrip() for o in output_lines]
-        start_line = output_lines.index("ff: found legal plan as follows") + 1
-        print("Steps taken:")
-        for line in output_lines[start_line:]:
-            if "REACH-GOAL" in line:
-                break
-            if line.startswith("step"):
-                line = (line.strip("step")).lstrip()
-            if "ASSIGN_TO_MONTH" in line:
-                a = line.split(" ")
-                self.assignations.append((a[2], a[3]))
-            print(line)
-        print(self.assignations)
-
-# Example usage:
-generator = BookGraphGenerator(num_books=15, level=3, random_seed=10)
+        self.time = end_time - start_time
+        if "ff: found legal plan as follows" in output_lines:
+            
+            start_line = output_lines.index("ff: found legal plan as follows") + 1
+            print("Steps taken:")
+            for line in output_lines[start_line:]:
+                if "REACH-GOAL" in line:
+                    break
+                if line.startswith("step"):
+                    line = (line.strip("step")).lstrip()
+                if "ASSIGN_TO_MONTH" in line:
+                    a = line.split(" ")
+                    self.assignations.append((a[2], a[3]))
+                print(line)
+            
+            if self.results == True:
+                self.save_results()
+            return self.time
+        return self.time
+            
+"""
+generator = BookGraphGenerator(num_books=books_num[b], level = levels[b], random_seed= seed, results=True, sequential_program=sequential)
 generator.generate_book_graph()
 generator.write_pddl_file()
-generator.run_metricff()
+exectime = generator.run_metricff()
+
+"""
+
+
+
+def sequence_of_experiments( experiment_name = "", books_num = [], levels = [], predecessor_chances = [], parallel_chances = [], read_books_percentages = [], books_to_read_percentages = [], sequentials=[False],seeds= [], append = False):
+    output_file = f"./experiment-{experiment_name}.csv"
+    if not append:
+        with open(output_file, 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(["Sequential", "BooksNumber", "Time", "Seed"])
+            file.close()
+    for seed in seeds:
+        print(seed)
+        for b in range(len(books_num)):
+            for sequential in sequentials:
+                generator = BookGraphGenerator(num_books=books_num[b], level = levels[b], random_seed= seed, results=True, sequential_program=sequential)
+                generator.generate_book_graph()
+                generator.write_pddl_file()
+                time = generator.run_metricff()
+                with open(output_file, 'a', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerow([sequential, books_num[b], time, seed])
+
+experiments = ["basic", "extensio1", "extensio2", "extensio3"]
+nivells = [0,1,2,3]
+books_list = range(25,35)
+
+
+generator = BookGraphGenerator(num_books=25, level = 2, random_seed= 42, results=True, sequential_program=True, show_graph=True)
+generator.generate_book_graph(False)
+generator.write_pddl_file()
+timer = generator.run_metricff()
+print(timer)
+for e in range(len(experiments)):
+    name = experiments[e]
+    #sequence_of_experiments(name, books_num=books_list, levels = [nivells[e] for _ in range(len(books_list))], sequentials=[False,True], seeds = [42,10, 249, 145], append=True)
+
+   

@@ -7,6 +7,7 @@
 
   (:functions 
     (number_month ?month - month)
+    (monthnum)
   )
 
   (:predicates 
@@ -24,7 +25,7 @@
       (not (read ?book))
       (to-read ?book)
       (forall ; For each predecessor, it has to have been read in a previous month/next month
-        (?other_book - predecessor_book)
+        (?other_book - book)
         (imply ; Sequential
           (predecessor ?other_book ?book) 
           (and 
@@ -42,7 +43,7 @@
           )
         )
       )
-      (forall (?other_book - parallel_book) ; Parallel
+      (forall (?other_book - book) ; Parallel
         (imply ; Parallel
           (or
             (parallel ?other_book ?book) 

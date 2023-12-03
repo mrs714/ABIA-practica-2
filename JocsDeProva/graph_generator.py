@@ -5,13 +5,14 @@ import numpy
 
 
 class BookGraph:
-    def __init__(self, num_books, random_seed, chance_predecesor_books=0.5, chance_parallel_books=0.3):
+    def __init__(self, num_books, random_seed, chance_predecesor_books=0.5, chance_parallel_books=0.3, multi_par = False):
         self.graph = nx.DiGraph()
         self.num_books = num_books
         self.chance_predecesor_books = chance_predecesor_books
         self.chance_parallel_books = chance_parallel_books
         random.seed(random_seed)
         numpy.random.seed(random_seed)
+        self.multipar = multi_par
 
     def add_sequential_edge(self, from_book, to_book):
         self.graph.add_edge(from_book, to_book, type="predecessor")
@@ -90,15 +91,70 @@ class BookGraph:
         if level >= 2: # On top of the previous level, add parallel edges
             for _ in range(self.num_books):
                 if random.random() < self.chance_parallel_books:
-                    available = [(i,j) for i in range(self.num_books) for j in range(self.num_books)]
-                    i, j = random.choice(available)
-                    while (nx.has_path(self.graph, i, j) or nx.has_path(self.graph, j, i)) and len(available) > 1:
-                        available.remove((i,j))
+                    if self.multipar:
+                        available = [(i,j) for i in range(self.num_books) for j in range(self.num_books)]
                         i, j = random.choice(available)
-                    available.remove((i,j))
-                    if len(available)>0 or (len(available)==0 and (not nx.has_path(self.graph, i, j) and not nx.has_path(self.graph, j, i))):
-                        self.graph.add_edge(i, j, type="parallel")
-                        self.graph.add_edge(j, i, type="parallel")
+                        while (nx.has_path(self.graph, i, j) or nx.has_path(self.graph, j, i)) and len(available) > 1:
+                            available.remove((i,j))
+                            i, j = random.choice(available)
+                        available.remove((i,j))
+                        if len(available)>0 or (len(available)==0 and (not nx.has_path(self.graph, i, j) and not nx.has_path(self.graph, j, i))):
+                            self.graph.add_edge(i, j, type="parallel")
+                            self.graph.add_edge(j, i, type="parallel")
+                    else:
+                        available = [(i,j) for i in range(self.num_books) for j in range(self.num_books)]
+                        i, j = random.choice(available)
+                        while (nx.has_path(self.graph, i, j) or nx.has_path(self.graph, j, i)) and len(available) > 1:
+                            available.remove((i,j))
+                            i, j = random.choice(available)
+                        available.remove((i,j))
+
+                        n = self.get_parallel_edge_nodes()
+                        n = [item for tup in n for item in tup]
+                        if (len(available)>0 or (len(available)==0 and (not nx.has_path(self.graph, i, j) and not nx.has_path(self.graph, j, i))))\
+                                and i not in n and j not in n:
+                            self.graph.add_edge(i, j, type="parallel")
+                            self.graph.add_edge(j, i, type="parallel")
+
+    def generate_simplified_graph(self, level):
+        available_books = set(range(self.num_books))
+        if level == 0:
+            for book in range(self.num_books):
+                # Check if book already is a predecesor of another book
+                if book in available_books:
+                    if random.random() < self.chance_predecesor_books and len(available_books) > 1:
+                        predecesor = random.choice(list(available_books - set([book])))
+                        self.add_sequential_edge(predecesor, book)
+                        available_books.remove(predecesor)
+                    else:
+                        self.add_independent_node(book)
+                else:
+                    self.add_independent_node(book)
+        if level > 0:
+            for book in range(self.num_books):
+                # Assign a random number of predecesors to the book, balanced depending on the number of available books
+                number_predecesors = round(random.randint(0, len(available_books) - 1) * (self.chance_predecesor_books - (self.chance_predecesor_books * (len(available_books) / self.num_books))/1.1))
+                predecesors = random.sample(list(available_books - set([book])), number_predecesors )
+                for predecesor in predecesors:
+                    self.add_sequential_edge(predecesor, book)
+                    available_books.remove(predecesor)
+                if number_predecesors == 0:
+                    self.add_independent_node(book)
+        if level > 1: # On top of the previous level, add parallel edges
+            available_parallel_books = set(range(self.num_books))
+            for book in range(self.num_books):
+                # Assign a random number of predecesors and parallels to the book, balanced depending on the number of available books
+                number_parallels = round(random.randint(0, len(available_parallel_books) - 1) * (self.chance_parallel_books - (self.chance_parallel_books * (len(available_parallel_books) / self.num_books))/1.5))
+                if number_parallels == 0:
+                    number_parallels = 1 if random.random() < self.chance_parallel_books  else 0
+                parallels = random.sample(list(available_parallel_books - set([book]) - set(predecesors)), number_parallels)
+                for parallel in parallels:
+                    self.add_parallel_edge(parallel, book)
+                    available_parallel_books.remove(parallel)
+                    if book in available_parallel_books:
+                        available_parallel_books.remove(book)
+                if number_parallels == 0:
+                    self.add_independent_node(book)
 
 
     def get_sequetial_edge_nodes(self):
