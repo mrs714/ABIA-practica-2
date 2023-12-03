@@ -31,6 +31,7 @@ class BookGraphGenerator:
         self.domain_file = f".\FitxersPDDL\Domini_{sequen}{level}.pddl"
         self.time = "Not recorded"
         self.results = results
+        self.pages = None
 
     def generate_book_graph(self, simplified=False):
         self.problem_name = f"test{self.num_books}-{self.level}"
@@ -61,6 +62,34 @@ class BookGraphGenerator:
         print(f"Test {self.problem_name}: {self.num_books} books, {len(self.sequentials)} sequential pairs, {len(self.parallels)} parallel pairs, {len(self.read_books)} read books, {len(self.books_to_read)} books to read")
         if self.show_graph:
             self.graph.paint_reading_plan(self.read_books, self.books_to_read)
+
+    def book_graph_from_selection(self, books, predecessors, parallels, pages = [], read = [], to_read = []):
+        self.problem_name = f"test{self.num_books}-{self.level}"
+        self.problem_name_path = self.problem_name + ".pddl"
+        self.output_file = os.path.join(self.script_dir, self.problem_name_path)
+        self.max_pages = min(8000 // len(books), 800)
+        self.min_pages = self.max_pages // 2
+        self.graph = BookGraph(num_books=self.num_books, random_seed=self.random_seed, chance_predecesor_books=self.predecessor_chance, chance_parallel_books=self.parallel_chance)
+        self.graph.create_graph_from_selection(books, predecessors, parallels)
+        self.sequentials = self.graph.get_sequetial_edge_nodes()
+        self.parallels = self.graph.get_parallel_edge_nodes()
+        self.others = list(set(self.graph.get_all_nodes()) - set(self.sequentials) - set(self.parallels))
+        self.pages = pages
+        self.all_books = self.graph.get_all_nodes()
+        self.sequential_books = set(i for i, j in self.sequentials).union(set(j for i, j in self.sequentials))
+        self.parallel_books = set(i for i, j in self.parallels).union(set(j for i, j in self.parallels))
+        self.normal_books = list(set(self.all_books) - self.sequential_books - self.parallel_books)
+
+        self.available_books = self.all_books
+        self.read_books = read
+        self.available_books = list(set(self.available_books) - set(self.read_books))
+        self.books_to_read = to_read
+        self.available_books = list(set(self.available_books) - set(self.books_to_read))
+
+        print(f"Test {self.problem_name}: {self.num_books} books, {len(self.sequentials)} sequential pairs, {len(self.parallels)} parallel pairs, {len(self.read_books)} read books, {len(self.books_to_read)} books to read")
+        if self.show_graph:
+            self.graph.paint_reading_plan(self.read_books, self.books_to_read)
+    
     def save_results(self):
         results_path = "".join([self.script_dir, "/", "results",self.problem_name, ".txt"])
         with open(results_path, 'w') as fp:
@@ -105,11 +134,17 @@ class BookGraphGenerator:
             for month in range(len(self.months)):
                 problem_file.write(f"        (= (number_month {self.months[month]}) {month})\n")
 
-            for book in self.all_books:
+            for book in range(len(self.all_books)):
                 # Level 3: pages
                 if self.level == 3:
-                    pages = random.randint(self.min_pages, self.max_pages)
-                    problem_file.write(f"        (= (pages book{book}) {pages})\n")
+                    if self.pages == None:
+                        pages = random.randint(self.min_pages, self.max_pages)
+                    else:
+                        print(self.pages)
+                        print(book)
+                        print(self.all_books)
+                        pages = self.pages[book]
+                    problem_file.write(f"        (= (pages book{self.all_books[book]}) {pages})\n")
 
             # Relationships between books
             for predecessor, book in self.sequentials:
@@ -171,6 +206,9 @@ class BookGraphGenerator:
                 self.save_results()
             return self.time
         return self.time
+    def get_results(self):
+        return self.assignations
+
             
 """
 generator = BookGraphGenerator(num_books=books_num[b], level = levels[b], random_seed= seed, results=True, sequential_program=sequential)
@@ -201,18 +239,20 @@ def sequence_of_experiments( experiment_name = "", books_num = [], levels = [], 
                     writer = csv.writer(file)
                     writer.writerow([sequential, books_num[b], time, seed])
 
-experiments = ["basic", "extensio1", "extensio2", "extensio3"]
-nivells = [0,1,2,3]
-books_list = range(25,35)
+
+if __name__ == '__main__':
+    experiments = ["basic", "extensio1", "extensio2", "extensio3"]
+    nivells = [0,1,2,3]
+    books_list = range(25,35)
 
 
-generator = BookGraphGenerator(num_books=25, level = 2, random_seed= 42, results=True, sequential_program=True, show_graph=True)
-generator.generate_book_graph(False)
-generator.write_pddl_file()
-timer = generator.run_metricff()
-print(timer)
-for e in range(len(experiments)):
-    name = experiments[e]
-    #sequence_of_experiments(name, books_num=books_list, levels = [nivells[e] for _ in range(len(books_list))], sequentials=[False,True], seeds = [42,10, 249, 145], append=True)
+    generator = BookGraphGenerator(num_books=25, level = 2, random_seed= 42, results=True, sequential_program=True, show_graph=True)
+    generator.generate_book_graph(False)
+    generator.write_pddl_file()
+    timer = generator.run_metricff()
+    print(timer)
+    for e in range(len(experiments)):
+        name = experiments[e]
+        #sequence_of_experiments(name, books_num=books_list, levels = [nivells[e] for _ in range(len(books_list))], sequentials=[False,True], seeds = [42,10, 249, 145], append=True)
 
-   
+    

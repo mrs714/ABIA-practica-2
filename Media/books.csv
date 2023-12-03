@@ -1,26 +1,37 @@
-TheFinalEmpire,TheWellOfAscension,,"https://m.media-amazon.com/images/I/618kMrmCLpL._AC_UF1000,1000_QL80_.jpg"
-TheWellOfAscension,TheHeroOfAges,,https://m.media-amazon.com/images/I/51ZCO0dMtIL.jpg
-TheHeroOfAges,"Oathbringer,TheEleventhMetal",,https://m.media-amazon.com/images/I/51sWpaREouL.jpg
-TheEleventhMetal,,,https://pbs.twimg.com/media/Fr3G-S5WIAEfvkT.jpg
-MistbornSecretHistory,TheLostMetal,"TheHeroOfAges,Oathbringer","https://m.media-amazon.com/images/I/81dF4qcsqNL._AC_UF1000,1000_QL80_.jpg"
-Oathbringer,"Dawnshard,RythmOfWar",MistbornSecretHistory,"https://m.media-amazon.com/images/I/91x4fchgt2L._AC_UF1000,1000_QL80_.jpg"
-Dawnshard,,,"https://m.media-amazon.com/images/I/81MQsL43LAL._AC_UF1000,1000_QL80_.jpg"
-Nightblood,,,"https://m.media-amazon.com/images/I/51HwSwl2DuL._AC_UF1000,1000_QL80_.jpg"
-Warbreaker,Nightblood,WordsOfRadiance,"https://m.media-amazon.com/images/I/614EWlujAvL._AC_UF1000,1000_QL80_.jpg"
-WordsOfRadiance,"Oathbringer,Edgedancer",Warbreaker,"https://m.media-amazon.com/images/I/91gzQy9z90L._AC_UF1000,1000_QL80_.jpg"
-TheWayOfKings,WordsOfRadiance,,"https://m.media-amazon.com/images/I/61o4Ti2QG2L._AC_UF1000,1000_QL80_.jpg"
-Edgedancer,Oathbringer,,https://m.media-amazon.com/images/I/51W2n96U-gL.jpg
-TheBandsOfMourning,MistbornSecretHistory,,"https://m.media-amazon.com/images/I/812MxmILsFL._AC_UF1000,1000_QL80_.jpg"
-ShadowsOfSelf,TheBandsOfMourning,,"https://m.media-amazon.com/images/I/81plxyl6soL._AC_UF1000,1000_QL80_.jpg"
-AllomancerJak,,,https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1659764795i/33357675.jpg
-TheAlloyOfLaw,"AllomancerJak,ShadowsOfSelf",,"https://m.media-amazon.com/images/I/81LCO0PxCiL._AC_UF1000,1000_QL80_.jpg"
-TheStormlightArchive5,,,"https://m.media-amazon.com/images/I/81Ox9WrOojL._AC_UF1000,1000_QL80_.jpg"
-RythmOfWar,"TheStormlightArchive5,Horneater",,"https://m.media-amazon.com/images/I/91q4a8ZckDL._AC_UF1000,1000_QL80_.jpg"
-Horneater,,,https://static.wikia.nocookie.net/stormlightarchive/images/d/d9/Stormlight_Archieves_-_Rock.png/revision/latest/scale-to-width-down/405?cb=20140518054457
-TheLostMetal,,,"https://m.media-amazon.com/images/I/61bLg1T0UOL._AC_UF1000,1000_QL80_.jpg"
-HarryPotterAndTheSorcerersStone,HarryPotterAndTheChamberOfSecrets,,"https://m.media-amazon.com/images/I/81Fyh2mrw4L._AC_UF1000,1000_QL80_.jpg"
-HarryPotterAndTheChamberOfSecrets,HarryPotterAndThePrisonerOfAzkaban,,https://images.squarespace-cdn.com/content/v1/5310c5eee4b07533b73ff34e/1586267074928-MI4TWRRRFERC07JVE9MM/harrypotterandthechamberofsecrets.jpg?format=300w
-HarryPotterAndThePrisonerOfAzkaban,HarryPotterAndTheGobletOfFire,,"https://m.media-amazon.com/images/I/91VZqV0Cy8L._AC_UF1000,1000_QL80_.jpg"
-HarryPotterAndTheGobletOfFire,HarryPotterAndTheOrderOfThePhoenix,,
-HarryPotterAndTheOrderOfThePhoenix,HarryPotterAndTheHalf-BloodPrince,,
-HarryPotterAndTheHalf-BloodPrince,,,
+TheFinalEmpire,TheWellOfAscension,,10,Brandon Sanderson,Cosmere,"./Media/Images/618kMrmCLpL._AC_UF1000,1000_QL80_.jpg"
+TheWellOfAscension,TheHeroOfAges,,11,Brandon Sanderson,Cosmere,./Media/Images/51ZCO0dMtIL.jpg
+TheHeroOfAges,"Oathbringer,TheEleventhMetal",,12,Brandon Sanderson,Cosmere,./Media/Images/51sWpaREouL.jpg
+TheEleventhMetal,,,13,Brandon Sanderson,Cosmere,./Media/Images/Fr3G-S5WIAEfvkT.jpg
+MistbornSecretHistory,TheLostMetal,"TheHeroOfAges,Oathbringer",14,Brandon Sanderson,Cosmere,"./Media/Images/81dF4qcsqNL._AC_UF1000,1000_QL80_.jpg"
+Oathbringer,"Dawnshard,RythmOfWar",MistbornSecretHistory,15,Brandon Sanderson,Cosmere,"./Media/Images/91x4fchgt2L._AC_UF1000,1000_QL80_.jpg"
+Dawnshard,,,16,Brandon Sanderson,Cosmere,"./Media/Images/81MQsL43LAL._AC_UF1000,1000_QL80_.jpg"
+Nightblood,,,17,Brandon Sanderson,Cosmere,"./Media/Images/51HwSwl2DuL._AC_UF1000,1000_QL80_.jpg"
+Warbreaker,Nightblood,WordsOfRadiance,18,Brandon Sanderson,Cosmere,"./Media/Images/614EWlujAvL._AC_UF1000,1000_QL80_.jpg"
+WordsOfRadiance,"Oathbringer,Edgedancer",Warbreaker,19,Brandon Sanderson,Cosmere,"./Media/Images/91gzQy9z90L._AC_UF1000,1000_QL80_.jpg"
+TheWayOfKings,WordsOfRadiance,,20,Brandon Sanderson,Cosmere,"./Media/Images/61o4Ti2QG2L._AC_UF1000,1000_QL80_.jpg"
+Edgedancer,Oathbringer,,21,Brandon Sanderson,Cosmere,./Media/Images/51W2n96U-gL.jpg
+TheBandsOfMourning,MistbornSecretHistory,,22,Brandon Sanderson,Cosmere,"./Media/Images/812MxmILsFL._AC_UF1000,1000_QL80_.jpg"
+ShadowsOfSelf,TheBandsOfMourning,,23,Brandon Sanderson,Cosmere,"./Media/Images/81plxyl6soL._AC_UF1000,1000_QL80_.jpg"
+AllomancerJak,,,24,Brandon Sanderson,Cosmere,./Media/Images/33357675.jpg
+TheAlloyOfLaw,"AllomancerJak,ShadowsOfSelf",,25,Brandon Sanderson,Cosmere,"./Media/Images/81LCO0PxCiL._AC_UF1000,1000_QL80_.jpg"
+TheStormlightArchive5,,,26,Brandon Sanderson,Cosmere,"./Media/Images/81Ox9WrOojL._AC_UF1000,1000_QL80_.jpg"
+RythmOfWar,"TheStormlightArchive5,Horneater",,27,Brandon Sanderson,Cosmere,"./Media/Images/91q4a8ZckDL._AC_UF1000,1000_QL80_.jpg"
+Horneater,,,10,Brandon Sanderson,Cosmere,
+TheLostMetal,,,11,Brandon Sanderson,Cosmere,"./Media/Images/61bLg1T0UOL._AC_UF1000,1000_QL80_.jpg"
+HarryPotterAndTheSorcerersStone,HarryPotterAndTheChamberOfSecrets,,12,J.K.Rowling,Harry Potter,"./Media/Images/81Fyh2mrw4L._AC_UF1000,1000_QL80_.jpg"
+HarryPotterAndTheChamberOfSecrets,HarryPotterAndThePrisonerOfAzkaban,,13,J.K.Rowling,Harry Potter,./Media/Images/harrypotterandthechamberofsecrets.jpg
+HarryPotterAndThePrisonerOfAzkaban,HarryPotterAndTheGobletOfFire,,14,J.K.Rowling,Harry Potter,"./Media/Images/91VZqV0Cy8L._AC_UF1000,1000_QL80_.jpg"
+HarryPotterAndTheGobletOfFire,HarryPotterAndTheOrderOfThePhoenix,,15,J.K.Rowling,Harry Potter,./Media/Images/9780439139595-es.jpg
+HarryPotterAndTheOrderOfThePhoenix,HarryPotterAndTheHalf-BloodPrince,,16,J.K.Rowling,Harry Potter,"./Media/Images/91MaVL-9RgL._AC_UF1000,1000_QL80_.jpg"
+HarryPotterAndTheHalf-BloodPrince,HarryPotterAndTheDeathlyHallows,,17,J.K.Rowling,Harry Potter,"./Media/Images/81YvqjX4AdL._AC_UF1000,1000_QL80_.jpg"
+HarryPotterAndTheDeathlyHallows,HarryPotterAndTheCursedChild,,18,J.K.Rowling,Harry Potter,./Media/Images/harrypotterandthedeathlyhallows.jpg
+HarryPotterAndTheCursedChild,,,19,J.K.Rowling,Harry Potter,./Media/Images/51Da+RazehL.jpg
+FantasticBeastsAndWhereToFindThem,,,20,J.K.Rowling,Harry Potter,./Media/Images/fantastic-beasts-and-where-to-find-them-3.jpg
+Master&Apprentice,AnewDawn,,21,Claudia Gray,Star Wars,
+AnewDawn,Catalyst:ArogueOneNovel,,22,John Jackson Miller,Star Wars,
+Catalyst:ArogueOneNovel,Aftermath,,23,James Luceno,Star Wars,
+Aftermath,Bloodline,,24,Chuck Wendig,Star Wars,
+Bloodline,TheForceAwakens,,25,Claudia Gray,Star Wars,
+TheForceAwakens,The Last Jedi,,26,Alan Dean Foster,Star Wars,
+TheLastJedi,ResistanceReborn,,27,Jason Fry,Star Wars,
+ResistanceReborn,,,28,Rebecca Roanhorse,Star Wars,

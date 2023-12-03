@@ -23,7 +23,7 @@
 
   (:action change_month
     :precondition ( 
-      < (montnum) 12
+      < (monthnum) 12
     )
     :effect(
         and 

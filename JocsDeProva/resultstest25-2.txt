@@ -1,12 +1,2 @@
-('BOOK4', 'JANUARY')
-('BOOK14', 'JANUARY')
-('BOOK22', 'JANUARY')
-('BOOK23', 'JANUARY')
-('BOOK24', 'JANUARY')
-('BOOK11', 'JANUARY')
-('BOOK7', 'JANUARY')
-('BOOK12', 'JANUARY')
-('BOOK3', 'FEBRUARY')
-('BOOK8', 'FEBRUARY')
-('BOOK18', 'FEBRUARY')
-Execution time: 2.23 seconds
+This problem couldn't be solved in less than 20 seconds.
+Execution time: 20.00 seconds

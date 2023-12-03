@@ -4,14 +4,14 @@ import numpy as np
 
 # Read the CSV data
 data = []
-with open("experiment-extensio2.csv", "r") as csvfile:
+with open("experiment-extensio3.csv", "r") as csvfile:
     reader = csv.reader(csvfile)
     for row in reader:
         data.append(row)
 
 # Separate data for True and False executions
-true_data = [(int(row[1]), float(row[2])) for row in data[1:] if row[0] == 'True' ]
-false_data = [(int(row[1]), float(row[2])) for row in data[1:] if row[0] == 'False' and float(row[2]) != 999 and int(row[1]) < 16] 
+true_data = [(int(row[1]), float(row[2])) for row in data[1:] if row[0] == 'True' and float(row[2]) != 999 and int(row[1]) < 16 ]
+false_data = [(int(row[1]), float(row[2])) for row in data[1:] if row[0] == 'False' and float(row[2]) != 999 and int(row[1]) < 16  ] 
 
 # Extract unique values for the x-axis (number of books)
 x_values = sorted(set(true_data[i][0] for i in range(len(true_data))))

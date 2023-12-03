@@ -156,7 +156,13 @@ class BookGraph:
                 if number_parallels == 0:
                     self.add_independent_node(book)
 
-
+    def create_graph_from_selection(self, books = [], predecessors = [], parallels = []):
+        self.graph.add_nodes_from(books)
+        for e in predecessors:
+            self.graph.add_edge(e[0], e[1], type="predecessor")
+        for p in parallels:
+            self.graph.add_edge(p[0], p[1], type="parallel")
+            self.graph.add_edge(p[1], p[0], type="parallel")
     def get_sequetial_edge_nodes(self):
         # Returns all pairs of nodes that are connected by a sequential edge
         node_pairs = []
@@ -170,7 +176,8 @@ class BookGraph:
         node_pairs = []
         for (u, v, d) in self.graph.edges(data=True):
             if d['type'] == 'parallel':
-                node_pairs.append((u, v))
+                if (v,u) not in node_pairs:
+                    node_pairs.append((u, v))
         return node_pairs
     def get_all_nodes(self):
         return list(self.graph)
