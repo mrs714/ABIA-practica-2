@@ -40,24 +40,28 @@ class BookSelectorApp:
                     "parallels": parallels.split(","),
                     "pages": pages,
                     "image_url": image_url,
-                    "selected": False
+                    "selected": False,
+                    "needed": False,
+                    "read": False,
                 })
         return books
 
     def create_interface(self):
+        for widget in self.root.winfo_children():
+            widget.destroy()
         # Create a responsive main frame
         main_frame = ttk.Frame(self.root)
-        main_frame.grid(row=0, column=0, padx=10, pady=10, sticky=tk.NSEW)
+        main_frame.grid(row=0, column=0, padx=5, pady=5, sticky=tk.NSEW)
         self.root.grid_rowconfigure(0, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
 
         # Create a canvas for scrollable book images
         canvas = tk.Canvas(main_frame)
-        canvas.grid(row=0, column=0, padx=10, pady=10, sticky=tk.NSEW)
+        canvas.grid(row=0, column=0, padx=5, pady=5, sticky=tk.NSEW)
 
         # Create a scrollbar for the canvas
         scrollbar = ttk.Scrollbar(main_frame, orient=tk.VERTICAL, command=canvas.yview)
-        scrollbar.grid(row=0, column=1, padx=0, pady=10, sticky=tk.NS)
+        scrollbar.grid(row=0, column=1, padx=0, pady=5, sticky=tk.NS)
 
         # Configure the canvas to use the scrollbar
         canvas.configure(yscrollcommand=scrollbar.set)
@@ -65,7 +69,6 @@ class BookSelectorApp:
         # Create a frame inside the canvas to hold book images
         frame = ttk.Frame(canvas)
         canvas.create_window((0, 0), window=frame, anchor=tk.NW)
-
         # Populate the frame with book images
         self.populate_books_frame(frame)
 
@@ -78,11 +81,20 @@ class BookSelectorApp:
 
         # Create a remove button for the listbox
         remove_button = ttk.Button(self.root, text="Remove", command=self.remove_selected_book)
-        remove_button.grid(row=2, column=1, padx=10, pady=10, sticky=tk.NSEW)
+        remove_button.grid(row=2, column=1, padx=10, pady=5, sticky=tk.NSEW)
 
         # Create a button to print selected books
         print_button = ttk.Button(self.root, text="Print Selected Books", command=self.create_lists)
-        print_button.grid(row=3, column=1, padx=10, pady=10, sticky=tk.NSEW)
+        print_button.grid(row=3, column=1, padx=10, pady=5, sticky=tk.NSEW)
+
+        # Set weight for columns in the main frame
+        main_frame.grid_columnconfigure(0, weight=1)
+        main_frame.grid_columnconfigure(1, weight=0)  # Set weight 0 for the scrollbar column
+
+        # Set weight for rows in the main frame
+        main_frame.grid_rowconfigure(0, weight=1)
+        self.update_selected_books_listbox()
+
 
     def populate_books_frame(self, frame):
         for i, book in enumerate(self.books):
@@ -126,11 +138,16 @@ class BookSelectorApp:
             if isinstance(widget, ttk.Label) and widget.cget("text") == title:
                 selected_color = "lightblue" if any(book['selected'] for book in self.books if book['title'] == title) else "white"
                 widget.configure(style="Book.TLabel", background=selected_color)
+        for book in self.books:
+            if book['title'] == title:
+                self.check_needed(book)
+        self.update_selected_books_listbox()
+
 
     def update_selected_books_listbox(self):
         self.selected_books_listbox.delete(0, tk.END)
         for book in self.books:
-            if book['selected']:
+            if book['selected'] or book['needed']:
                 self.selected_books_listbox.insert(tk.END, book['title'])
 
     def remove_selected_book(self):
@@ -168,9 +185,41 @@ class BookSelectorApp:
                 for predpred in self.books:
                     if predpred['title'] == pred:
                         self.get_full_predecessors(predpred)
-                        predpred['selected'] = True
                         preds.append((predpred['title'], book['title']))
         return preds
+
+    def check_needed(self, book, visited=set()):
+        preds = []
+        for pred in book['predecessors']:
+            if pred != '':
+                for predpred in self.books:
+                    if predpred['title'] == pred:
+                        self.check_needed(predpred)
+                        if not predpred['selected']:
+                            predpred['needed'] = True
+                        preds.append((predpred['title'], book['title']))
+        parallels_list = []
+        # Mark the current book as visited and selected
+        visited.add(book['title'])
+        for parallel_title in book['parallels']:
+            if parallel_title != '' and parallel_title not in visited:
+                for parallel_book in self.books:
+                    if parallel_book['title'] == parallel_title:
+                        # Mark the parallel book as visited and selected
+                        visited.add(parallel_book['title'])
+                        # Recursively get full parallels for the parallel book
+                        parallels_list.extend(self.check_needed(parallel_book, visited))
+                        
+                        # Add the parallel books to the parallels_list
+                        if (book['title'], parallel_book['title']) not in parallels_list and \
+                        (parallel_book['title'], book['title']) not in parallels_list:
+                            parallels_list.append((book['title'], parallel_book['title']))
+        for a, b in parallels_list:
+            for book in self.books:
+                if book['title'] == a or book['title'] == b:
+                    if not book['selected']:
+                        book['needed'] = True    
+        return parallels_list
 
     def get_full_parallels(self, book, visited=set()):
         parallels_list = []
@@ -189,16 +238,19 @@ class BookSelectorApp:
                         # Add the parallel books to the parallels_list
                         if (book['title'], parallel_book['title']) not in parallels_list and \
                         (parallel_book['title'], book['title']) not in parallels_list:
-                            parallels_list.append((book['title'], parallel_book['title']))
-        for a, b in parallels_list:
-            for book in self.books:
-                if book['title'] == a or book['title'] == b:
-                    book['selected'] = True                 
+                            parallels_list.append((book['title'], parallel_book['title']))            
         return parallels_list
 
 
 
     def create_lists(self):
+        for widget in self.root.winfo_children():
+            widget.destroy()
+
+        # Create and place new widgets for updated content
+        updated_label = ttk.Label(self.root, text="Loading...")
+        updated_label.grid(row=0, column=0, columnspan=12, padx=10, pady=10, sticky=tk.NSEW)
+
         finalbooks = []
         predecessors = []
         parallels = []
@@ -206,26 +258,79 @@ class BookSelectorApp:
 
         initial_selected = [b['title'] for b in self.books if b['selected']]
         for book in self.books:
-            if book['selected']:
+            if book['selected'] or book['needed']:
                 finalbooks.append(book['title'])
                 pages.append(book['pages'])
+                self.check_needed(book)
                 predecessors += self.get_full_predecessors(book)
                 parallels += self.get_full_parallels(book)
         for book in self.books:
-            if book['selected'] and book['title'] not in finalbooks:
+            if (book['selected'] or book['needed']) and book['title'] not in finalbooks:
                 finalbooks.append(book['title'])
                 pages.append(book['pages'])
-        print(finalbooks)
-        print(predecessors)
-        print(parallels)
-        print(pages)
-        generator = BookGraphGenerator(num_books=0, level = 3, random_seed= 0, results=True, sequential_program=True, show_graph = True)
-        generator.book_graph_from_selection(finalbooks, predecessors, parallels, pages, to_read = initial_selected)
+
+        generator = BookGraphGenerator(num_books=0, level=3, random_seed=0, results=True, sequential_program=True,
+                                    show_graph=True)
+        generator.book_graph_from_selection(finalbooks, predecessors, parallels, pages, to_read=initial_selected)
         generator.write_pddl_file()
         time = generator.run_metricff()
-        print(generator.get_results())
+        r = generator.get_results()
 
-        # Include your graph generation logic here
+        updated_label.config(text=r)
+
+        # Load book images and create labels
+        month_labels = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER','NOVEMBER', 'DECEMBER']
+        month_counts = {month: 0 for month in month_labels}
+        book_assignments = r
+
+        for widget in self.root.winfo_children():
+            widget.destroy()
+
+        main_frame = ttk.Frame(self.root)
+        main_frame.grid(row=0, column=0, padx=5, pady=5, sticky=tk.NSEW)
+        self.root.grid_rowconfigure(0, weight=1)
+        self.root.grid_columnconfigure(0, weight=1)
+
+        if r != "This problem couldn't be solved in less than 20 seconds.":
+            print(book_assignments)
+            for book, month in book_assignments:
+                label_text = f"{book}"
+                image_path = ""
+                for b in self.books:
+                    if b['title'].upper().strip() in book:
+                        image_path = b['image_url']
+
+                try:
+                    img = Image.open(image_path)
+                except:
+                    img = Image.open("./Media/Images/noimage.png")
+                # Replace with the actual path to your images
+                img = img.resize((80, 105), Image.ANTIALIAS)
+                photo = ImageTk.PhotoImage(img)
+
+                # Create a label with the image
+                book_label = ttk.Label(self.root, text=label_text, image=photo, compound=tk.TOP)
+                book_label.config(font=('Helvatical bold',4))
+                print(month_labels.index(month))
+                book_label.grid(row= month_counts[month], column=month_labels.index(month), padx=1, pady=1)
+                book_label.image = photo  # Keep a reference to the image to prevent garbage collection
+
+
+                month_counts[month] += 1
+            
+            # Set a uniform weight for all rows in the frame
+            for row in range(max(month_counts.values()) + 1):
+                main_frame.grid_rowconfigure(row, weight=1)
+
+            # Set a uniform weight for all columns in the frame
+            for col in range(12):
+                main_frame.grid_columnconfigure(col, weight=1)
+
+        back_button = ttk.Button(self.root, text="Back", command=self.create_interface)
+        back_button.grid(row=row, column=0, columnspan=12, padx=10, pady=10, sticky=tk.NSEW)
+
+
+        
 
 if __name__ == "__main__":
     root = tk.Tk()
