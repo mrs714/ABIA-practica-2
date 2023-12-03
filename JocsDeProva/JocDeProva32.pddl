@@ -11,14 +11,14 @@
         ; The Stormlight Archive - predecessors
         TheWayOfKings WordsOfRadiance Oathbringer RhythmOfWar Edgedancer - predecessor_book
         ; The Stormlight Archive - parallels
-        Oathbringer - parallel_book
+        Oathbringer MistbornSecretHistory - parallel_book
         
         ; Warbreaker - books
         Nightblood - book
         ; Warbreaker - predecessors
         Warbreaker - predecessor_book
         ; Warbreaker - parallels
-        Warbreaker - parallel_book
+        Warbreaker WordsOfRadiance - parallel_book
 
         ; Months
         January February March April May June July August September October November December - month
@@ -118,12 +118,7 @@
         ; Number of pages for each book:
         ; 342 255 380 297 389 210 272 273 381 296 381 321
         ; Total pages: 3927
-        ; Monthly average (total/12): 327.25
-        (= (average_pages) 327)
 
-        ; Amount of pages deviated from the average 
-        (= (total_deviation) 0)
-        (= (assist_value) 0)
 
     )
     

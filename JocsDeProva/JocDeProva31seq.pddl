@@ -11,14 +11,14 @@
         ; The Stormlight Archive - predecessors
         TheWayOfKings WordsOfRadiance Oathbringer RhythmOfWar Edgedancer - book
         ; The Stormlight Archive - parallels
-        Oathbringer - book
+        Oathbringer WordsOfRadiance - book
         
         ; Warbreaker - book
         Nightblood - book
         ; Warbreaker - predecessors
         Warbreaker - book
         ; Warbreaker - parallels
-        Warbreaker - book
+        Warbreaker MistbornSecretHistory - book
 
         ; Months
         January February March April May June July August September October November December - month
@@ -112,10 +112,10 @@
         (= (month_pages December) 0)
 
     )
-    (:metric minimize (maxpages))
     
     ; We want to minimize the difference between the average pages read per month and the pages read per month
     ; As neither abs or square root are available, we use the sum of the squared differences
-
+    
     (:goal (forall (?book - book) (imply (to-read ?book) (read ?book))))
+    (:metric minimize (pagesread))
 )

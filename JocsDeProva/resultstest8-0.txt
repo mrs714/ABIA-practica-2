@@ -1,0 +1,3 @@
+('BOOK4', 'JANUARY')
+('BOOK6', 'JANUARY')
+Execution time: 0.06 seconds

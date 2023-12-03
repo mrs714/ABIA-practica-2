@@ -1,0 +1,7 @@
+('BOOK2', 'JANUARY')
+('BOOK9', 'JANUARY')
+('BOOK10', 'JANUARY')
+('BOOK12', 'JANUARY')
+('BOOK14', 'JANUARY')
+('BOOK17', 'JANUARY')
+Execution time: 0.11 seconds

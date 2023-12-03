@@ -1,15 +1,18 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import random
+import numpy
 
 
 class BookGraph:
-    def __init__(self, num_books, random_seed, chance_predecesor_books, chance_parallel_books):
+    def __init__(self, num_books, random_seed, chance_predecesor_books=0.5, chance_parallel_books=0.3, multi_par = False):
         self.graph = nx.DiGraph()
         self.num_books = num_books
         self.chance_predecesor_books = chance_predecesor_books
         self.chance_parallel_books = chance_parallel_books
         random.seed(random_seed)
+        numpy.random.seed(random_seed)
+        self.multipar = multi_par
 
     def add_sequential_edge(self, from_book, to_book):
         self.graph.add_edge(from_book, to_book, type="predecessor")
@@ -19,19 +22,18 @@ class BookGraph:
 
     def add_independent_node(self, book):
         self.graph.add_node(book, type="independent")
-
     def remove_edge(self, from_book, to_book):
         self.graph.remove_edge(from_book, to_book)
 
     def visualize_graph(self):
-        pos = nx.spring_layout(self.graph)
+        pos = nx.spring_layout(self.graph, k=1.6, iterations=200) 
         # Group edges by type
         parallel_edges = [(u, v) for (u, v, d) in self.graph.edges(data=True) if d['type'] == 'parallel']
         predecessor_edges = [(u, v) for (u, v, d) in self.graph.edges(data=True) if d['type'] == 'predecessor']
 
         # Add edges
-        nx.draw_networkx_edges(self.graph, pos, edgelist=parallel_edges, width=8, alpha=0.5, edge_color='r', style='dashed')
-        nx.draw_networkx_edges(self.graph, pos, edgelist=predecessor_edges, width=8, alpha=0.5, edge_color='b')
+        nx.draw_networkx_edges(self.graph, pos, edgelist=parallel_edges, width=4, alpha=0.5, edge_color='r', style='dashed', arrows = False)
+        nx.draw_networkx_edges(self.graph, pos, edgelist=predecessor_edges, width=4, alpha=0.5, edge_color='b')
 
         nx.draw_networkx_nodes(self.graph, pos)
         nx.draw_networkx_labels(self.graph, pos)
@@ -62,6 +64,59 @@ class BookGraph:
         plt.show()
 
     def generate_graph(self, level):
+        self.graph.add_nodes_from(range(self.num_books))
+        if level >= 0:
+            for j in range(self.num_books):
+                if random.random() < self.chance_predecesor_books:
+                    available = [x for x in range(self.num_books)]
+                    i = random.choice(available)
+                    while nx.has_path(self.graph, j, i) and len(available) > 1:
+                        available.remove(i)
+                        i = random.choice(available)
+                    available.remove(i)
+                    if len(available)>0 or (len(available) == 0 and not nx.has_path(self.graph, j,i)):
+                        self.graph.add_edge(i,j,type="predecessor")
+        if level >= 1:
+            for j in range(self.num_books):
+                for _ in range(random.randint(1, self.num_books)):
+                    if random.random() < self.chance_predecesor_books/self.num_books: #less probability of new predecessors
+                        available = [x for x in range(self.num_books)]
+                        i = random.choice(available)
+                        while nx.has_path(self.graph, j, i) and len(available) > 1:
+                            available.remove(i)
+                            i = random.choice(available)
+                        available.remove(i)
+                        if len(available)>0 or (len(available) == 0 and not nx.has_path(self.graph, j,i)):
+                            self.graph.add_edge(i,j,type="predecessor")
+        if level >= 2: # On top of the previous level, add parallel edges
+            for _ in range(self.num_books):
+                if random.random() < self.chance_parallel_books:
+                    if self.multipar:
+                        available = [(i,j) for i in range(self.num_books) for j in range(self.num_books)]
+                        i, j = random.choice(available)
+                        while (nx.has_path(self.graph, i, j) or nx.has_path(self.graph, j, i)) and len(available) > 1:
+                            available.remove((i,j))
+                            i, j = random.choice(available)
+                        available.remove((i,j))
+                        if len(available)>0 or (len(available)==0 and (not nx.has_path(self.graph, i, j) and not nx.has_path(self.graph, j, i))):
+                            self.graph.add_edge(i, j, type="parallel")
+                            self.graph.add_edge(j, i, type="parallel")
+                    else:
+                        available = [(i,j) for i in range(self.num_books) for j in range(self.num_books)]
+                        i, j = random.choice(available)
+                        while (nx.has_path(self.graph, i, j) or nx.has_path(self.graph, j, i)) and len(available) > 1:
+                            available.remove((i,j))
+                            i, j = random.choice(available)
+                        available.remove((i,j))
+
+                        n = self.get_parallel_edge_nodes()
+                        n = [item for tup in n for item in tup]
+                        if (len(available)>0 or (len(available)==0 and (not nx.has_path(self.graph, i, j) and not nx.has_path(self.graph, j, i))))\
+                                and i not in n and j not in n:
+                            self.graph.add_edge(i, j, type="parallel")
+                            self.graph.add_edge(j, i, type="parallel")
+
+    def generate_simplified_graph(self, level):
         available_books = set(range(self.num_books))
         if level == 0:
             for book in range(self.num_books):
@@ -100,7 +155,14 @@ class BookGraph:
                         available_parallel_books.remove(book)
                 if number_parallels == 0:
                     self.add_independent_node(book)
-        
+
+    def create_graph_from_selection(self, books = [], predecessors = [], parallels = []):
+        self.graph.add_nodes_from(books)
+        for e in predecessors:
+            self.graph.add_edge(e[0], e[1], type="predecessor")
+        for p in parallels:
+            self.graph.add_edge(p[0], p[1], type="parallel")
+            self.graph.add_edge(p[1], p[0], type="parallel")
     def get_sequetial_edge_nodes(self):
         # Returns all pairs of nodes that are connected by a sequential edge
         node_pairs = []
@@ -114,9 +176,12 @@ class BookGraph:
         node_pairs = []
         for (u, v, d) in self.graph.edges(data=True):
             if d['type'] == 'parallel':
-                node_pairs.append((u, v))
+                if (v,u) not in node_pairs:
+                    node_pairs.append((u, v))
         return node_pairs
-    
+    def get_all_nodes(self):
+        return list(self.graph)
+
     def make_mistborn(self, level: str):
         # Level: 01, 02 for level 0; 11, 12 for level 1; ...
 
@@ -211,10 +276,6 @@ class BookGraph:
             self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
             return
         
-
-
-
- 
 
 # Test
 """

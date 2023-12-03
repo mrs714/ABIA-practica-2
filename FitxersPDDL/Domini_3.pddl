@@ -9,7 +9,9 @@
   (:functions 
     (number_month ?month - month)
     (month_pages ?month - month)
-    (pages?book - book)
+    (pages ?book - book)
+    (maxpages)
+    (monthnum)
   )
 
   (:predicates 
@@ -26,9 +28,9 @@
       and 
       (not (read ?book))
       (to-read ?book)
-      (not (< 800 (+ (pages ?book) (month_pages ?month))))
+      (not (< (maxpages) (+ (pages ?book) (month_pages ?month))))
       (forall ; For each predecessor, it has to have been read in a previous month/next month
-        (?other_book - predecessor_book)
+        (?other_book - book)
         (imply ; Sequential
           (predecessor ?other_book ?book) 
           (and 
@@ -46,7 +48,7 @@
           )
         )
       )
-      (forall (?other_book - parallel_book) ; Parallel
+      (forall (?other_book - book) ; Parallel
         (imply ; Parallel
           (or
             (parallel ?other_book ?book) 

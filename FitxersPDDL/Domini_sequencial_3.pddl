@@ -22,12 +22,13 @@
   )
 
   (:action change_month
-    :precondition(
-        < (monthnum) 13
+    :precondition ( 
+      < (monthnum) 12
     )
     :effect(
         and 
         (increase (monthnum) 1)
+        
 
     )
   )
@@ -82,7 +83,6 @@
         (assign (assigned ?book) (monthnum))
         (read ?book)
         (increase (month_pages ?month) (pages ?book))
-        (first)
     ) 
   )
 
@@ -91,7 +91,7 @@
       :precondition (
         and 
         (to-read ?book)
-        (or (predecessor ?pred ?book) (parallel?pred ?book) (parallel ?book ?pred))
+        (or (predecessor ?pred ?book) (parallel ?pred ?book) (parallel ?book ?pred))
         (not (read ?pred))
         (not (to-read ?pred))
       )
