@@ -170,14 +170,14 @@ class BookGraphGenerator:
             problem_file.write("    (:goal (forall (?book - book) (imply (to-read ?book) (read ?book))))\n")
             problem_file.write(")\n")
 
-    def run_metricff(self):
+    def run_metricff(self, maxtime = 20):
         start_time = time.time()
         process = subprocess.Popen(["./FitxersPDDL/metricff.exe", "-o", self.domain_file, "-f", f"./JocsDeProva/{self.problem_name}.pddl"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         try:
-            stdout, stderr = process.communicate(timeout=20)
+            stdout, stderr = process.communicate(timeout=maxtime)
         except:
             process.terminate()      
-            self.assignations.append("This problem couldn't be solved in less than 20 seconds.")
+            self.assignations.append(f"This problem couldn't be solved in less than {maxtime} seconds.")
             self.time = 20
             if self.results == True:
                 self.save_results()
