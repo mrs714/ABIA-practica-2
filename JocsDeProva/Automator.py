@@ -32,6 +32,7 @@ class BookGraphGenerator:
         self.time = "Not recorded"
         self.results = results
         self.pages = None
+        self.cosmere = False
 
     def generate_book_graph(self, simplified=False):
         self.problem_name = f"test{self.num_books}-{self.level}"
@@ -91,7 +92,10 @@ class BookGraphGenerator:
             self.graph.paint_reading_plan(self.read_books, self.books_to_read)
     
     def save_results(self):
-        results_path = "".join([self.script_dir, "/", "results",self.problem_name, ".txt"])
+        if not self.cosmere:
+            results_path = "".join([self.script_dir, "/", "results",self.problem_name, ".txt"])
+        else:
+            results_path = "".join([self.script_dir, "/", "ResultsJocDeProva",self.problem_name, ".txt"])
         with open(results_path, 'w') as fp:
             for item in self.assignations:
                 # write each item on a new line
@@ -170,6 +174,38 @@ class BookGraphGenerator:
             problem_file.write("    (:goal (forall (?book - book) (imply (to-read ?book) (read ?book))))\n")
             problem_file.write(")\n")
 
+    def cosmere_test(self, clevel):
+        self.cosmere = True
+        self.problem_name = f"JocDeProva-{clevel}"
+        self.problem_name_path = self.problem_name + ".pddl"
+        self.output_file = os.path.join(self.script_dir, self.problem_name_path)
+        self.graph = BookGraph(num_books=self.num_books, random_seed=self.random_seed, chance_predecesor_books=self.predecessor_chance, chance_parallel_books=self.parallel_chance)
+        self.graph.make_mistborn(clevel)
+        self.sequentials = self.graph.get_sequetial_edge_nodes()
+        self.parallels = self.graph.get_parallel_edge_nodes()
+        self.others = list(set(self.graph.get_all_nodes()) - set(self.sequentials) - set(self.parallels))
+
+        self.all_books = self.graph.get_all_nodes()
+        
+
+        print(self.all_books)
+        self.sequential_books = set(i for i, j in self.sequentials).union(set(j for i, j in self.sequentials))
+        self.parallel_books = set(i for i, j in self.parallels).union(set(j for i, j in self.parallels))
+        self.normal_books = list(set(self.all_books) - self.sequential_books - self.parallel_books)
+
+        self.available_books = self.all_books
+        self.read_books = set(random.sample(self.available_books, int(self.num_books * self.read_books_percentage)))
+        self.available_books = list(set(self.available_books) - self.read_books)
+        self.books_to_read = set(random.sample(self.available_books, int(self.num_books * self.books_to_read_percentage)))
+        self.available_books = list(set(self.available_books) - self.books_to_read)
+
+        print(f"Test {self.problem_name}: {len(self.all_books)} books, {len(self.sequentials)} sequential pairs, {len(self.parallels)} parallel pairs, {len(self.read_books)} read books, {len(self.books_to_read)} books to read")
+        if self.show_graph:
+            self.graph.paint_reading_plan(self.read_books, self.books_to_read)
+
+        
+        
+
     def run_metricff(self, maxtime = 20):
         start_time = time.time()
         process = subprocess.Popen(["./FitxersPDDL/metricff.exe", "-o", self.domain_file, "-f", f"./JocsDeProva/{self.problem_name}.pddl"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -247,7 +283,7 @@ if __name__ == '__main__':
 
 
     generator = BookGraphGenerator(num_books=25, level = 2, random_seed= 42, results=True, sequential_program=True, show_graph=True)
-    generator.generate_book_graph(False)
+    generator.cosmere_test("01")
     generator.write_pddl_file()
     timer = generator.run_metricff()
     print(timer)

@@ -58,7 +58,7 @@ class BookGraph:
         if rest_of_books:
             nx.draw_networkx_nodes(self.graph, pos, nodelist=rest_of_books, node_color='cyan')
         else:
-            nx.draw_networkx_nodes(self.graph, pos, nodelist=list(set(range(self.num_books)) - set(read_books) - set(books_to_read)), node_color='cyan')
+            nx.draw_networkx_nodes(self.graph, pos, nodelist=list(set(self.get_all_nodes()) - set(read_books) - set(books_to_read)), node_color='cyan')
 
         nx.draw_networkx_labels(self.graph, pos)
         plt.show()
@@ -225,7 +225,6 @@ class BookGraph:
         to_read += ["Rhythm of War"]
 
         if level == "01":
-            self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
             return
         
         self.add_sequential_edge("Oathbringer", "Dawnshard")
@@ -236,7 +235,6 @@ class BookGraph:
         to_read += ["Dawnshard", "Horneater"]
         
         if level == "02":
-            self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
             return
         
         books = ["Warbreaker", "Nightblood"]
@@ -248,7 +246,6 @@ class BookGraph:
         self.add_sequential_edge("The Hero of Ages", "Oathbringer")
         
         if level == "11":
-            self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
             return
         
         self.add_sequential_edge("The Hero of Ages", "The Eleventh Metal")
@@ -257,7 +254,6 @@ class BookGraph:
         self.add_sequential_edge("Edgedancer", "Oathbringer")
 
         if level == "12":
-            self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
             return
         
         self.remove_edge("Oathbringer", "Mistborn: Secret History")
@@ -266,14 +262,12 @@ class BookGraph:
         self.add_parallel_edge("Warbreaker", "Words of Radiance")
 
         if level == "21":
-            self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
             return
         
         self.remove_edge("The Hero of Ages", "Mistborn: Secret History")
         self.add_parallel_edge("The Hero of Ages", "Mistborn: Secret History")  
 
         if level == "22":
-            self.paint_reading_plan(read, to_read, list(set(total_books) - set(read) - set(to_read)))
             return
         
 
