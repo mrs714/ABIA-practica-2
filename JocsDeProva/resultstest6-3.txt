@@ -1,2 +1,0 @@
-('BOOK4', 'DECEMBER')
-Execution time: 1.05 seconds

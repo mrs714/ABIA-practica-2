@@ -1,6 +1,0 @@
-('BOOK0', 'JANUARY')
-('BOOK1', 'JANUARY')
-('BOOK4', 'JANUARY')
-('BOOK3', 'FEBRUARY')
-('BOOK6', 'FEBRUARY')
-Execution time: 0.33 seconds

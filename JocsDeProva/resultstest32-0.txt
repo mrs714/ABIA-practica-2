@@ -1,2 +1,0 @@
-This problem couldn't be solved in less than 20 seconds.
-Execution time: 20.00 seconds
