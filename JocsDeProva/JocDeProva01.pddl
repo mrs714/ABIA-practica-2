@@ -11,6 +11,7 @@
         January February March April May June July August September October November December - month
     )
     (:init
+        (= (monthnum) 0)
         (= (number_month January) 0)
         (= (number_month February) 1)
         (= (number_month March) 2)
