@@ -112,21 +112,7 @@
         (= (month_pages November) 0)
         (= (month_pages December) 0)
 
-        ; We need to manually calculate the average pages read per month
-        ; Books to read, including predecessors and parallels
-
-        ; ShadowsOfSelf TheBandsOfMourning TheLostMetal WordsOfRadiance Warbreaker Edgedancer
-        ; Oathbringer MistbornSecretHistory RhythmOfWar TheFinalEmpire TheWellOfAscension TheHeroOfAges
-
-        ; Number of pages for each book:
-        ; 342 255 380 297 389 210 272 273 381 296 381 321
-        ; Total pages: 3927
-
-
     )
     
-    ; We want to minimize the difference between the average pages read per month and the pages read per month
-    ; As neither abs or square root are available, we use the sum of the squared differences
-
     (:goal (forall (?book - book) (imply (to-read ?book) (read ?book))))
 )

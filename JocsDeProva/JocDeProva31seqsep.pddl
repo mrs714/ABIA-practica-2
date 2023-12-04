@@ -115,10 +115,6 @@
         (= (month_pages December) 0)
 
     )
-    ; We want to minimize the difference between the average pages read per month and the pages read per month
-    ; As neither abs or square root are available, we use the sum of the squared differences
-    
+
     (:goal (and (forall (?book - book) (imply (to-read ?book) (read ?book))) (forall (?book - predecessor_book) (imply (to-read ?book) (read ?book)))))
-    
-    
 )
