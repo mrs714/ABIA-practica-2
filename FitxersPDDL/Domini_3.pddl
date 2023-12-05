@@ -12,6 +12,7 @@
     (pages ?book - book)
     (maxpages)
     (monthnum)
+    (pagesread)
   )
 
   (:predicates 
