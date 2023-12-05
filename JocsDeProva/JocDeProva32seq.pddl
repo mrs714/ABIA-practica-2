@@ -28,7 +28,7 @@
         (= (maxpages) 800)
         (= (monthnum) 0)
         (= (number_month January) 0)
-        (= (number_month Warbreaker) 1)
+        (= (number_month February) 1)
         (= (number_month March) 2)
         (= (number_month April) 3)
         (= (number_month May) 4)
