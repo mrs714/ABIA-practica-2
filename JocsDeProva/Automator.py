@@ -255,7 +255,6 @@ exectime = generator.run_metricff()
 """
 
 
-
 def sequence_of_experiments( experiment_name = "", books_num = [], levels = [], predecessor_chances = [], parallel_chances = [], read_books_percentages = [], books_to_read_percentages = [], sequentials=[False],seeds= [], append = False):
     output_file = f"./experiment-{experiment_name}.csv"
     if not append:
@@ -290,5 +289,3 @@ if __name__ == '__main__':
     for e in range(len(experiments)):
         name = experiments[e]
         #sequence_of_experiments(name, books_num=books_list, levels = [nivells[e] for _ in range(len(books_list))], sequentials=[False,True], seeds = [42,10, 249, 145], append=True)
-
-    

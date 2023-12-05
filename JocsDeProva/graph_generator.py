@@ -186,28 +186,28 @@ class BookGraph:
         # Level: 01, 02 for level 0; 11, 12 for level 1; ...
 
         total_books = []
-        books = ["The Final Empire", "The Well of Ascension", "The Hero of Ages"]
+        books = ["TheFinalEmpire", "TheWellOfAscension", "TheHeroOfAges"]
         total_books += books
         
         # Relacions sequencials
         for book in range(len(books) - 1):
             self.add_sequential_edge(books[book], books[book + 1])
 
-        books = ["The Alloy of Law", "Shadows of Self", "The Bands of Mourning", "The Lost Metal"]
+        books = ["TheAlloyOfLaw", "ShadowsOfSelf", "TheBandsOfMourning", "TheLostMetal"]
         total_books += books
 
         for book in range(len(books) - 1):
             self.add_sequential_edge(books[book], books[book + 1])
 
-        books = ["The Eleventh Metal", "Allomancer Jak", "Mistborn: Secret History"]
+        books = ["TheEleventhMetal", "AllomancerJak", "MistbornSecretHistory"]
         total_books += books
 
-        self.add_sequential_edge("The Hero of Ages", "Mistborn: Secret History")
+        self.add_sequential_edge("TheHeroOfAges", "MistbornSecretHistory")
 
-        self.add_independent_node("The Eleventh Metal")
-        self.add_independent_node("Allomancer Jak")
+        self.add_independent_node("TheEleventhMetal")
+        self.add_independent_node("AllomancerJak")
 
-        books = ["The Way of Kings", "Words of Radiance", "Oathbringer", "Rhythm of War"]
+        books = ["TheWayOfKings", "WordsOfRadiance", "Oathbringer", "RhythmOfWar"]
         total_books += books
 
         for book in range(len(books) - 1):
@@ -219,19 +219,19 @@ class BookGraph:
         for book in books:
             self.add_independent_node(book)
         
-        read = ["The Alloy of Law", "The Way of Kings"]
-        to_read = ["Shadows of Self", "The Bands of Mourning", "The Lost Metal"]
-        to_read += ["Mistborn: Secret History"]
-        to_read += ["Rhythm of War"]
+        read = ["TheAlloyOfLaw", "TheWayOfKings"]
+        to_read = ["ShadowsOfSelf", "TheBandsOfMourning", "TheLostMetal"]
+        to_read += ["MistbornSecretHistory"]
+        to_read += ["RhythmOfWar"]
 
         if level == "01":
             return
         
         self.add_sequential_edge("Oathbringer", "Dawnshard")
-        self.add_sequential_edge("Rhythm of War", "Horneater")
-        books = ["The Stormlight Archive 5"]
+        self.add_sequential_edge("RhythmOfWar", "Horneater")
+        books = ["TheStormlightArchive5"]
         total_books += books
-        self.add_sequential_edge("Rhythm of War", "The Stormlight Archive 5")
+        self.add_sequential_edge("RhythmOfWar", "TheStormlightArchive5")
         to_read += ["Dawnshard", "Horneater"]
         
         if level == "02":
@@ -240,32 +240,32 @@ class BookGraph:
         books = ["Warbreaker", "Nightblood"]
         total_books += books
         self.add_sequential_edge("Warbreaker", "Nightblood")
-        self.add_sequential_edge("Warbreaker", "Words of Radiance")
-        self.add_sequential_edge("Oathbringer", "Mistborn: Secret History")
-        self.add_sequential_edge("The Bands of Mourning", "Mistborn: Secret History")
-        self.add_sequential_edge("The Hero of Ages", "Oathbringer")
+        self.add_sequential_edge("Warbreaker", "WordsOfRadiance")
+        self.add_sequential_edge("Oathbringer", "MistbornSecretHistory")
+        self.add_sequential_edge("TheBandsOfMourning", "MistbornSecretHistory")
+        self.add_sequential_edge("TheHeroOfAges", "Oathbringer")
         
         if level == "11":
             return
         
-        self.add_sequential_edge("The Hero of Ages", "The Eleventh Metal")
-        self.add_sequential_edge("The Alloy of Law", "Allomancer Jak")
-        self.add_sequential_edge("Words of Radiance", "Edgedancer")
+        self.add_sequential_edge("TheHeroOfAges", "TheEleventhMetal")
+        self.add_sequential_edge("TheAlloyOfLaw", "AllomancerJak")
+        self.add_sequential_edge("WordsOfRadiance", "Edgedancer")
         self.add_sequential_edge("Edgedancer", "Oathbringer")
 
         if level == "12":
             return
         
-        self.remove_edge("Oathbringer", "Mistborn: Secret History")
+        self.remove_edge("Oathbringer", "MistbornSecretHistory")
         self.add_parallel_edge("Oathbringer", "Mistborn: Secret History")
-        self.remove_edge("Warbreaker", "Words of Radiance")
-        self.add_parallel_edge("Warbreaker", "Words of Radiance")
+        self.remove_edge("Warbreaker", "WordsOf Radiance")
+        self.add_parallel_edge("Warbreaker", "WordsOf Radiance")
 
         if level == "21":
             return
         
-        self.remove_edge("The Hero of Ages", "Mistborn: Secret History")
-        self.add_parallel_edge("The Hero of Ages", "Mistborn: Secret History")  
+        self.remove_edge("TheHeroOfAges", "MistbornSecretHistory")
+        self.add_parallel_edge("TheHeroOfAges", "MistbornSecretHistory")  
 
         if level == "22":
             return
