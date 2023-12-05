@@ -21,7 +21,7 @@
         Warbreaker - parallel_book
 
         ; Months
-        January February March April May June July August September October November December Warbreaker- month
+        January February March April May June July August September October November December Warbreaker - month
     )
     (:init
         (= (pagesread) 0)

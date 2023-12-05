@@ -12,6 +12,7 @@
     (pages ?book - book)
     (month_pages ?month - month)
     (maxpages)
+    (pagesread)
   )
 
   (:predicates 
