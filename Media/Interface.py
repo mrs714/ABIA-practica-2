@@ -92,7 +92,7 @@ class BookSelectorApp:
                 img = Image.open(image_url)
             except:
                 img = Image.open("./Media/Images/noimage.png")
-            img = img.resize((100, 150), Image.ANTIALIAS)
+            img = img.resize((100, 150), Image.LANCZOS)
             photo = ImageTk.PhotoImage(img)
 
             label = ttk.Label(frame, image=photo, text=title, compound=tk.BOTTOM, cursor="hand2", style="Book.TLabel")
@@ -282,7 +282,7 @@ class BookSelectorApp:
                     img = Image.open(image_path)
                 except:
                     img = Image.open("./Media/Images/noimage.png")
-                img = img.resize((80, 105), Image.ANTIALIAS)
+                img = img.resize((80, 105), Image.LANCZOS)
                 photo = ImageTk.PhotoImage(img)
 
                 book_label = ttk.Label(self.root, text=label_text, image=photo, compound=tk.TOP, background="bisque")
@@ -293,15 +293,15 @@ class BookSelectorApp:
 
                 month_counts[month] += 1
 
-            # Set weights for all rows and columns
-            for row in range(max(month_counts.values()) + 2):
-                self.root.grid_rowconfigure(row, weight=1)
+        # Set weights for all rows and columns
+        for row in range(max(month_counts.values()) + 2):
+            self.root.grid_rowconfigure(row, weight=1)
 
-            self.max = max(month_counts.values()) + 2
+        self.max = max(month_counts.values()) + 2
 
-            self.root.grid_rowconfigure(self.max -1, weight=0)
-            for col in range(1, 13):
-                self.root.grid_columnconfigure(col, weight=1)
+        self.root.grid_rowconfigure(self.max -1, weight=0)
+        for col in range(1, 13):
+            self.root.grid_columnconfigure(col, weight=1)
 
         back_button = ttk.Button(self.root, text="Back", command=self.create_interface)
         back_button.grid(row=max(month_counts.values()) + 1, column=0, columnspan=12, padx=10, pady=10, sticky=tk.NSEW)
