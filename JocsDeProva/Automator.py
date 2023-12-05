@@ -5,7 +5,7 @@ from graph_generator import BookGraph
 import numpy
 import time
 import csv
-
+import platform
 class BookGraphGenerator:
     def __init__(self, num_books, level=3, domain="books", predecessor_chance=0.4,
                  parallel_chance=0.2, read_books_percentage=0.2,
@@ -208,7 +208,14 @@ class BookGraphGenerator:
 
     def run_metricff(self, maxtime = 20):
         start_time = time.time()
-        process = subprocess.Popen(["./FitxersPDDL/metricff.exe", "-o", self.domain_file, "-f", f"./JocsDeProva/{self.problem_name}.pddl"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if platform.system() == "Linux":
+            exec_file = "./FitxersPDDL/metricff"
+        elif platform.system() == "Darwin":
+            exec_file = "./FitxersPDDL/ff"
+        else:
+            exec_file = "./FitxersPDDL/metricff.exe"
+
+        process = subprocess.Popen([exec_file, "-o", self.domain_file, "-f", f"./JocsDeProva/{self.problem_name}.pddl"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         try:
             stdout, stderr = process.communicate(timeout=maxtime)
         except:
