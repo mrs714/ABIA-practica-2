@@ -209,12 +209,12 @@ class BookGraphGenerator:
     def run_metricff(self, maxtime = 20):
         start_time = time.time()
         if platform.system() == "Linux":
-            exec_file = "./FitxersPDDL/metricff"
+            exec_file = "./FitxersPDDL/ff"
         elif platform.system() == "Darwin":
             exec_file = "./FitxersPDDL/ff"
         else:
             exec_file = "./FitxersPDDL/metricff.exe"
-
+        
         process = subprocess.Popen([exec_file, "-o", self.domain_file, "-f", f"./JocsDeProva/{self.problem_name}.pddl"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         try:
             stdout, stderr = process.communicate(timeout=maxtime)
@@ -231,6 +231,7 @@ class BookGraphGenerator:
         
         output_lines = [o.lstrip() for o in output_lines]
         self.time = end_time - start_time
+        print(output_lines) #afegit per debug Linux
         if "ff: found legal plan as follows" in output_lines:
             
             start_line = output_lines.index("ff: found legal plan as follows") + 1
