@@ -28,7 +28,7 @@ class BookGraphGenerator:
         self.assignations = []
         sequen = "sequencial_" if sequential_program else ""
         level = level if level != 0 else "basic"
-        self.domain_file = f".\FitxersPDDL\Domini_{sequen}{level}.pddl"
+        self.domain_file = f"./FitxersPDDL/Domini_{sequen}{level}.pddl"
         self.time = "Not recorded"
         self.results = results
         self.pages = None
@@ -225,13 +225,13 @@ class BookGraphGenerator:
             if self.results == True:
                 self.save_results()
             return 999
+            
         end_time = time.time()
         out = stdout.decode("utf-8")
         output_lines = out.split("\n")
         
         output_lines = [o.lstrip() for o in output_lines]
         self.time = end_time - start_time
-        print(output_lines) #afegit per debug Linux
         if "ff: found legal plan as follows" in output_lines:
             
             start_line = output_lines.index("ff: found legal plan as follows") + 1
@@ -289,7 +289,7 @@ if __name__ == '__main__':
     books_list = range(25,35)
 
 
-    generator = BookGraphGenerator(num_books=25, level = 2, random_seed= 42, results=True, sequential_program=True, show_graph=True)
+    generator = BookGraphGenerator(num_books=25, level = 0, random_seed= 42, results=True, sequential_program=True, show_graph=True)
     generator.cosmere_test("01")
     generator.write_pddl_file()
     timer = generator.run_metricff()
